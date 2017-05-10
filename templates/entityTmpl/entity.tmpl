@@ -1,0 +1,28 @@
+package {{ package }};
+
+{% for item in imports %}
+import {{ item }};
+{% endfor %}
+
+/**
+ * @ClassName: {{ className }}
+ * @Description: {{ description }}
+ * @author {{ author }}
+ * @date {{ date }}
+ * @since version 1.0
+ */
+public class {{ className }}{
+    {% for field in fields %}{% if not field.isBaseFields  %}
+    /**
+     * {{ field.comments }}
+     */
+    private {{ field.type }} {{ field.name }};{% endif %}{% endfor %}
+
+    {% for field in fields %}{% if not field.isBaseFields  %}
+    public void set{{ field.upperName }}({{ field.type }} {{ field.name }}){
+        this.{{ field.name }} = {{ field.name }};
+    }
+    public {{ field.type }} get{{ field.upperName }}(){
+        return this.{{ field.name }};
+    }{% endif %}{% endfor %}
+}
