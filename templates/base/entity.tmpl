@@ -12,13 +12,13 @@ import {{ item }};
  * @since version 1.0
  */
 public class {{ className }}{
-    {% for field in fields %}{% if not field.isBaseFields  %}
+    {% for field in fields %}{% if not field.isBaseField  %}
     /**
      * {{ field.comments }}
      */
     private {{ field.type }} {{ field.name }};{% endif %}{% endfor %}
 
-    {% for field in fields %}{% if not field.isBaseFields  %}
+    {% for field in fields %}{% if not field.isBaseField  %}
     public void set{{ field.upperName }}({{ field.type }} {{ field.name }}){
         this.{{ field.name }} = {{ field.name }};
     }

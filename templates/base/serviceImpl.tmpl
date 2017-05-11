@@ -14,7 +14,7 @@ import {{ package }}.{{ className }};
  * @since version 1.0
  */
 @Service
-public class {{ serviceImplClass }} extend BaseServiceImpl<{{ className }}> implements {{ serviceClass }}{
+public class {{ serviceImplClass }} extends BaseServiceImpl<{{ className }}> implements {{ serviceClass }}{
 
 	@Autowired
 	private {{ mapperClass }} {{ sMapperClass }};

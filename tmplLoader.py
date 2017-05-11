@@ -1,29 +1,41 @@
 # -*- coding: UTF-8 -*-
 from jinja2 import Template, FileSystemLoader
 import os
+import config
 
 _dir = os.path.dirname(__file__)
 loader = FileSystemLoader(_dir)
 
+baseTemplateDir = 'base'
+templateDir = config.get("info", 'template')
+if templateDir is None:
+    templateDir = baseTemplateDir
 
 def getEntityTmpl():
-    return Template(loader.get_source("", "templates/entityTmpl/entity.tmpl")[0])
+    path = 'templates/%s/entity.tmpl' % templateDir
+    return Template(loader.get_source("", path)[0])
 
 def getMapperXmlTmpl():
-    return Template(loader.get_source("", "templates/entityTmpl/mapperXml.tmpl")[0])
+    path = "templates/%s/mapperXml.tmpl" % templateDir
+    return Template(loader.get_source("", path)[0])
 
 def getMapperTmpl():
-    return Template(loader.get_source("", "templates/entityTmpl/mapper.tmpl")[0])
+    path =  "templates/%s/mapper.tmpl" % templateDir
+    return Template(loader.get_source("", path)[0])
 
 
 def getContorllerTmpl():
-    return Template(loader.get_source("", "templates/entityTmpl/controller.tmpl")[0])
+    path = "templates/%s/controller.tmpl" % templateDir
+    return Template(loader.get_source("", path)[0])
 
 def getServiceTmpl():
-    return Template(loader.get_source("", "templates/entityTmpl/service.tmpl")[0])
+    path = "templates/%s/service.tmpl" % templateDir
+    return Template(loader.get_source("", path)[0])
 
 def getServiceImplTmpl():
-    return Template(loader.get_source("", "templates/entityTmpl/serviceImpl.tmpl")[0])
+    path = "templates/%s/serviceImpl.tmpl" % templateDir
+    return Template(loader.get_source("", path)[0])
 
 def getDataTmpl():
-    return Template(loader.get_source("", "templates/entityTmpl/data.tmpl")[0])
+    path = "templates/%s/data.tmpl" % templateDir
+    return Template(loader.get_source("", path)[0])

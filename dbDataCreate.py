@@ -33,8 +33,10 @@ for a in arr:
         table_alias = stringUtil.propertyToField(table_name)
     data = db.getColInfo(table_name)
     for f in data:
-        f['field'] = stringUtil.propertyToField(f['dbField'])
-        f['isBaseField'] = f['field'] in baseFieldsArr and 'true' or 'fase'
+        f['dbField'] = f['DBFIELD']
+        f['comments'] = f['COMMENTS']
+        f['field'] = stringUtil.propertyToField(f['dbField'].lower())
+        f['isBaseField'] = f['field'] in baseFieldsArr and 'true' or 'false'
 
     j = {'table': table_name, 'className': table_alias, 'fields': data,
          'author': author, 'basePackage': basePackage, 'package': '%s.%s' % (basePackage, baseEntity)}

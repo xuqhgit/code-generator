@@ -1,125 +1,56 @@
 [
 
 {
-  "className":"stock",
+  "className":"role",
   "package":"com.anchor.test.entity",
-  "table":"stock",
-  "basePackage":"",
+  "table":"YBF_AUTH_ROLE",
+  "basePackage":"com.anchor.test",
   "description":"",
   "author":"anchor",
   "fields":[
     
-    {"name":"code","type":"","dbField":"code","package":"","comments":"","isDbField":true,"isBaseField":true },
+    {"name":"description","type":"","dbField":"DESCRIPTION","package":"","comments":"角色描述","isDbField":true,"isBaseField":false },
     
-    {"name":"createTime","type":"","dbField":"create_time","package":"","comments":"","isDbField":true,"isBaseField":false },
+    {"name":"id","type":"","dbField":"ID","package":"","comments":"角色ID","isDbField":true,"isBaseField":false },
     
-    {"name":"name","type":"","dbField":"name","package":"","comments":"","isDbField":true,"isBaseField":false },
+    {"name":"rolecode","type":"","dbField":"ROLECODE","package":"","comments":"角色代码","isDbField":true,"isBaseField":false },
     
-    {"name":"publicTime","type":"","dbField":"public_time","package":"","comments":"","isDbField":true,"isBaseField":false },
+    {"name":"rolename","type":"","dbField":"ROLENAME","package":"","comments":"角色名称","isDbField":true,"isBaseField":false },
     
-    {"name":"state","type":"","dbField":"state","package":"","comments":"1有效 其他待定","isDbField":true,"isBaseField":false },
+    {"name":"status","type":"","dbField":"STATUS","package":"","comments":"角色状态,0：表示禁用，1：表示启用","isDbField":true,"isBaseField":false },
     
-    {"name":"type","type":"","dbField":"type","package":"","comments":"类型：sh 沪市 sz 深市","isDbField":true,"isBaseField":false }
+    {"name":"updateTime","type":"","dbField":"UPDATE_TIME","package":"","comments":"修改时间","isDbField":true,"isBaseField":false },
+    
+    {"name":"updateUserid","type":"","dbField":"UPDATE_USERID","package":"","comments":"修改人","isDbField":true,"isBaseField":false }
     
 
   ]
 },
 
 {
-  "className":"plate",
+  "className":"user",
   "package":"com.anchor.test.entity",
-  "table":"plate",
-  "BasePackage":"com.anchor.test",
+  "table":"YBF_AUTH_USER",
+  "basePackage":"com.anchor.test",
   "description":"",
   "author":"anchor",
   "fields":[
     
-    {"name":"code","type":"","dbField":"code","package":"","comments":"","isDbField":true,"isBaseField":true },
+    {"name":"createTime","type":"","dbField":"CREATE_TIME","package":"","comments":"创建日期","isDbField":true,"isBaseField":false },
     
-    {"name":"createTime","type":"","dbField":"create_time","package":"","comments":"","isDbField":true,"isBaseField":false },
+    {"name":"id","type":"","dbField":"ID","package":"","comments":"用户ID","isDbField":true,"isBaseField":false },
     
-    {"name":"id","type":"","dbField":"id","package":"","comments":"","isDbField":true,"isBaseField":false },
+    {"name":"password","type":"","dbField":"PASSWORD","package":"","comments":"密码密文","isDbField":true,"isBaseField":false },
     
-    {"name":"name","type":"","dbField":"name","package":"","comments":"","isDbField":true,"isBaseField":false },
+    {"name":"salt","type":"","dbField":"SALT","package":"","comments":"密码盐","isDbField":true,"isBaseField":false },
     
-    {"name":"state","type":"","dbField":"state","package":"","comments":"1有效","isDbField":true,"isBaseField":false },
+    {"name":"status","type":"","dbField":"STATUS","package":"","comments":"状态，0：表示禁用，1：表示启用","isDbField":true,"isBaseField":false },
     
-    {"name":"type","type":"","dbField":"type","package":"","comments":"THS_SECTOR 同花顺行业 CONCEPT 概念 AREA 区域","isDbField":true,"isBaseField":false }
+    {"name":"updateTime","type":"","dbField":"UPDATE_TIME","package":"","comments":"修改时间","isDbField":true,"isBaseField":false },
     
-
-  ]
-},
-
-{
-  "className":"stockDaily",
-  "package":"com.anchor.test.entity",
-  "table":"stock_daily",
-  "BasePackage":"com.anchor.test",
-  "description":"",
-  "author":"anchor",
-  "fields":[
+    {"name":"updateUserid","type":"","dbField":"UPDATE_USERID","package":"","comments":"修改人","isDbField":true,"isBaseField":false },
     
-    {"name":"amplitude","type":"","dbField":"amplitude","package":"","comments":"振幅","isDbField":true,"isBaseField":false },
-    
-    {"name":"amt","type":"","dbField":"amt","package":"","comments":"交易金额","isDbField":true,"isBaseField":false },
-    
-    {"name":"averagePrice","type":"","dbField":"average_price","package":"","comments":"均价","isDbField":true,"isBaseField":false },
-    
-    {"name":"buyPrice","type":"","dbField":"buy_price","package":"","comments":"最后挂单买入价格","isDbField":true,"isBaseField":false },
-    
-    {"name":"chg","type":"","dbField":"chg","package":"","comments":"涨幅值","isDbField":true,"isBaseField":false },
-    
-    {"name":"closePrice","type":"","dbField":"close_price","package":"","comments":"收盘价","isDbField":true,"isBaseField":false },
-    
-    {"name":"createTime","type":"","dbField":"create_time","package":"","comments":"","isDbField":true,"isBaseField":false },
-    
-    {"name":"cAmt","type":"","dbField":"c_amt","package":"","comments":"流通值","isDbField":true,"isBaseField":false },
-    
-    {"name":"cStock","type":"","dbField":"c_stock","package":"","comments":"流通股","isDbField":true,"isBaseField":false },
-    
-    {"name":"ep","type":"","dbField":"ep","package":"","comments":"委比","isDbField":true,"isBaseField":false },
-    
-    {"name":"growth","type":"","dbField":"growth","package":"","comments":"涨幅率","isDbField":true,"isBaseField":false },
-    
-    {"name":"highEnd","type":"","dbField":"high_end","package":"","comments":"涨停","isDbField":true,"isBaseField":false },
-    
-    {"name":"highPrice","type":"","dbField":"high_price","package":"","comments":"最高价","isDbField":true,"isBaseField":false },
-    
-    {"name":"lowEnd","type":"","dbField":"low_end","package":"","comments":"跌停","isDbField":true,"isBaseField":false },
-    
-    {"name":"lowPrice","type":"","dbField":"low_price","package":"","comments":"最低价","isDbField":true,"isBaseField":false },
-    
-    {"name":"mc","type":"","dbField":"mc","package":"","comments":"总市值","isDbField":true,"isBaseField":false },
-    
-    {"name":"openPrice","type":"","dbField":"open_price","package":"","comments":"开盘价","isDbField":true,"isBaseField":false },
-    
-    {"name":"pb","type":"","dbField":"pb","package":"","comments":"市净率","isDbField":true,"isBaseField":false },
-    
-    {"name":"pe","type":"","dbField":"pe","package":"","comments":"市盈率","isDbField":true,"isBaseField":false },
-    
-    {"name":"price","type":"","dbField":"price","package":"","comments":"当前价格","isDbField":true,"isBaseField":false },
-    
-    {"name":"sellPrice","type":"","dbField":"sell_price","package":"","comments":"最后挂单卖出价格","isDbField":true,"isBaseField":false },
-    
-    {"name":"stockCode","type":"","dbField":"stock_code","package":"","comments":"股票代码","isDbField":true,"isBaseField":false },
-    
-    {"name":"tradeDate","type":"","dbField":"trade_date","package":"","comments":"交易日期","isDbField":true,"isBaseField":false },
-    
-    {"name":"turnover","type":"","dbField":"turnover","package":"","comments":"成交额","isDbField":true,"isBaseField":false },
-    
-    {"name":"turnoverRate","type":"","dbField":"turnover_rate","package":"","comments":"换手率","isDbField":true,"isBaseField":false },
-    
-    {"name":"tStock","type":"","dbField":"t_stock","package":"","comments":"总股本","isDbField":true,"isBaseField":false },
-    
-    {"name":"volume","type":"","dbField":"volume","package":"","comments":"总手","isDbField":true,"isBaseField":false },
-    
-    {"name":"volumeIn","type":"","dbField":"volume_in","package":"","comments":"内盘","isDbField":true,"isBaseField":false },
-    
-    {"name":"volumeOut","type":"","dbField":"volume_out","package":"","comments":"外盘","isDbField":true,"isBaseField":false },
-    
-    {"name":"volumeTransaction","type":"","dbField":"volume_transaction","package":"","comments":"交易量","isDbField":true,"isBaseField":false },
-    
-    {"name":"vp","type":"","dbField":"vp","package":"","comments":"量比","isDbField":true,"isBaseField":false }
+    {"name":"username","type":"","dbField":"USERNAME","package":"","comments":"用户名","isDbField":true,"isBaseField":false }
     
 
   ]
