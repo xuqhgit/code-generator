@@ -1,0 +1,18 @@
+[
+{% for d in list %}
+{
+  "className":"{{ d.className }}",
+  "package":"{{ d.package }}",
+  "table":"{{ d.table }}",
+  "basePackage":"{{ d.basePackage }}",
+  "description":"{{ d.description }}",
+  "author":"{{ d.author }}",
+  "fields":[
+    {% for field in d.fields %}
+    {"name":"{{ field.field }}","type":"","dbField":"{{ field.dbField }}","package":"","comments":"{{ field.comments }}","isDbField":true,"isBaseField":{{ field.isBaseField }} }{% if not loop.last %},{% endif %}
+    {% endfor %}
+
+  ]
+}{% if not loop.last %},{% endif %}
+{% endfor %}
+]
