@@ -5,6 +5,7 @@ import com.anchor.core.common.dto.QueryFilter;
 import com.anchor.core.common.dto.Result;
 import com.anchor.core.common.dto.ResultGrid;
 import com.anchor.core.common.dto.ResultObject;
+import com.anchor.core.common.query.QueryPage;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -102,7 +103,7 @@ public class {{ controllerClass }} extends BaseController{
 
     @RequestMapping(value="grid")
     @ResponseBody
-    public Result grid(QueryFilter<{{ className }}> queryFilter,{{ className }} {{ sClassName }}){
+    public Result grid(QueryPage<{{ className }}> queryFilter,{{ className }} {{ sClassName }}){
         try{
             queryFilter.setT({{ sClassName }});
             PageInfo<{{ className }}> pageInfo = {{ sServiceClass }}.getPageInfo(queryFilter);

@@ -1,5 +1,5 @@
 
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" import="{{ package }}.{{ className }}" language="java" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <html>
 <head>
@@ -72,9 +72,9 @@
     $(function () {
     {% for field in fields %}{% if field.pattern != ""  %}
     jQuery.validator.addMethod("{{ field.name}}Valid", function(value,element) {
-        var p = /{{ field.pattern }}/;
+        var p =/<%={{ className }}.{{ field.dbField }}_PATTERN%>/;
         return p.test(value);
-    }, "{{ field.patternMessage }}");{% endif %}{% endfor %}
+    }, "<%={{ className }}.{{ field.dbField }}_PATTERN_MESSAGE%>");{% endif %}{% endfor %}
 
     var params = {
             url: '/{{ sClassName }}/grid',

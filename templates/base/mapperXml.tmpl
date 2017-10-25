@@ -51,10 +51,17 @@
 		<include refid="{{ sClassName }}Columns" />
 		from {{ table }} {{ dbTableAlias }}
         <where>
-            {% for field in dbFields %}  {% if field.searchFieldType and field.searchFieldType=='like' %}
+            {% for field in dbFields %}
+			{%- if field.searchFieldType and field.searchFieldType=='like' -%}
 			<if test="t.{{ field.name }}!=null and t.{{ field.name }}!=''">
 				and instr({{ dbTableAlias }}.{{ field.dbField }},#{ t.{{ field.name }} })>0
-			</if>{% endif %}{% endfor %}
+			</if>
+			<% elif field.searchFieldType and field.searchFieldType=='equals'%>
+			<if test="t.{{ field.name }}!=null and t.{{ field.name }}!=''">
+				and {{ dbTableAlias }}.{{ field.dbField }}=#{ t.{{ field.name }} }
+			</if>
+			{% endif %}
+			{%- endfor -%}
 		</where>
 		<choose>
 			<when test="sort!=null and sortOrder!=null">
