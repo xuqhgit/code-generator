@@ -10,32 +10,16 @@ baseTemplateDir = 'base'
 templateDir = config.get("info", 'template')
 if templateDir is None:
     templateDir = baseTemplateDir
+templateDirArr = templateDir.split(",")
 
-def getEntityTmpl():
-    path = 'templates/%s/entity.tmpl' % templateDir
-    return Template(loader.get_source("", path)[0])
-
-def getMapperXmlTmpl():
-    path = "templates/%s/mapperXml.tmpl" % templateDir
-    return Template(loader.get_source("", path)[0])
-
-def getMapperTmpl():
-    path =  "templates/%s/mapper.tmpl" % templateDir
-    return Template(loader.get_source("", path)[0])
-
-
-def getContorllerTmpl():
-    path = "templates/%s/controller.tmpl" % templateDir
-    return Template(loader.get_source("", path)[0])
-
-def getServiceTmpl():
-    path = "templates/%s/service.tmpl" % templateDir
-    return Template(loader.get_source("", path)[0])
-
-def getServiceImplTmpl():
-    path = "templates/%s/serviceImpl.tmpl" % templateDir
-    return Template(loader.get_source("", path)[0])
-
-def getDataTmpl():
-    path = "templates/%s/data.tmpl" % templateDir
-    return Template(loader.get_source("", path)[0])
+def getTmpl(templateName):
+    t = None
+    for i in reversed(templateDirArr):
+        path = "templates/%s/%s.tmpl" % (i, templateName)
+        try:
+            t = Template(loader.get_source("", path)[0])
+        except BaseException, e:
+            print path, e.message
+        if t:
+            break
+    return t

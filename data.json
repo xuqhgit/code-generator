@@ -1,58 +1,54 @@
 [
 
 {
-  "className":"role",
-  "package":"com.anchor.test.entity",
-  "table":"YBF_AUTH_ROLE",
-  "basePackage":"com.anchor.test",
+  "db":"MYSQL",
+  "className":"permission",
+  "title":"",
+  "package":"com.anchor.ms.auth.model",
+  "table":"SYS_PERMISSION",
+  "basePackage":"com.anchor.ms.auth",
   "description":"",
-  "author":"anchor",
+  "author":"xuqh",
+  "path":"",
+  "dbTableAlias":"permission",
+  "idGenerator":"AUTO",
   "fields":[
     
-    {"name":"description","type":"","dbField":"DESCRIPTION","package":"","comments":"角色描述","isDbField":true,"isBaseField":false },
-    
-    {"name":"id","type":"","dbField":"ID","package":"","comments":"角色ID","isDbField":true,"isBaseField":false },
-    
-    {"name":"rolecode","type":"","dbField":"ROLECODE","package":"","comments":"角色代码","isDbField":true,"isBaseField":false },
-    
-    {"name":"rolename","type":"","dbField":"ROLENAME","package":"","comments":"角色名称","isDbField":true,"isBaseField":false },
-    
-    {"name":"status","type":"","dbField":"STATUS","package":"","comments":"角色状态,0：表示禁用，1：表示启用","isDbField":true,"isBaseField":false },
-    
-    {"name":"updateTime","type":"","dbField":"UPDATE_TIME","package":"","comments":"修改时间","isDbField":true,"isBaseField":false },
-    
-    {"name":"updateUserid","type":"","dbField":"UPDATE_USERID","package":"","comments":"修改人","isDbField":true,"isBaseField":false }
-    
-
-  ]
-},
-
-{
-  "className":"user",
-  "package":"com.anchor.test.entity",
-  "table":"YBF_AUTH_USER",
-  "basePackage":"com.anchor.test",
-  "description":"",
-  "author":"anchor",
-  "fields":[
-    
-    {"name":"createTime","type":"","dbField":"CREATE_TIME","package":"","comments":"创建日期","isDbField":true,"isBaseField":false },
-    
-    {"name":"id","type":"","dbField":"ID","package":"","comments":"用户ID","isDbField":true,"isBaseField":false },
-    
-    {"name":"password","type":"","dbField":"PASSWORD","package":"","comments":"密码密文","isDbField":true,"isBaseField":false },
-    
-    {"name":"salt","type":"","dbField":"SALT","package":"","comments":"密码盐","isDbField":true,"isBaseField":false },
-    
-    {"name":"status","type":"","dbField":"STATUS","package":"","comments":"状态，0：表示禁用，1：表示启用","isDbField":true,"isBaseField":false },
-    
-    {"name":"updateTime","type":"","dbField":"UPDATE_TIME","package":"","comments":"修改时间","isDbField":true,"isBaseField":false },
-    
-    {"name":"updateUserid","type":"","dbField":"UPDATE_USERID","package":"","comments":"修改人","isDbField":true,"isBaseField":false },
-    
-    {"name":"username","type":"","dbField":"USERNAME","package":"","comments":"用户名","isDbField":true,"isBaseField":false }
-    
-
+    {"name":"code","title":"权限编码","type":"String","dbField":"CODE","package":"","comments":"权限编码","isDbField":true,"required":true,"requiredMessage":"必填项",
+        "pattern":"^[a-zA-Z0-9_-]{4,16}$","patternMessage":"请输入格式为:字母、数字、下划线、减号、冒号，1至32位字符","gridShow":true,"sort":false,"listField":true,
+        "searchFieldType":"like","addField":true,"editField": true,"isBaseField":false},
+    {"name":"createTime","title":"","type":"Date","dbField":"CREATE_TIME","package":"","comments":"创建时间","isDbField":true,"required":false,"requiredMessage":"必填项",
+        "pattern":"","patternMessage":"","gridShow":true,"sort":false,"listField":true,"searchFieldType":"","addField":true,"editField": false,"isBaseField":true},
+    {"name":"creatorId","title":"","type":"String","dbField":"CREATOR_ID","package":"","comments":"创建者ID","isDbField":true,"required":false,"requiredMessage":"必填项",
+        "pattern":"","patternMessage":"","gridShow":true,"sort":false,"listField":true,
+        "searchFieldType":"","addField":true,"editField": false,"isBaseField":false},
+    {"name":"icon","title":"","type":"String","dbField":"ICON","package":"","comments":"图标","isDbField":true,"required":false,"requiredMessage":"必填项",
+        "pattern":"","patternMessage":"","gridShow":true,"sort":false,"listField":true,
+        "searchFieldType":"","addField":true,"editField": false,"isBaseField":false},
+    {"name":"id","title":"","type":"Long","dbField":"ID","package":"","comments":"唯一ID","isDbField":true,"required":false,"requiredMessage":"必填项",
+        "pattern":"","patternMessage":"","gridShow":true,"sort":false,"listField":true,
+        "searchFieldType":"","addField":true,"editField": false,"isBaseField":true},
+    {"name":"name","title":"","type":"String","dbField":"NAME","package":"","comments":"权限名称","isDbField":true,"required":false,"requiredMessage":"必填项",
+        "pattern":"","patternMessage":"","gridShow":true,"sort":false,"listField":true,
+        "searchFieldType":"","addField":true,"editField": false,"isBaseField":false},
+    {"name":"pid","title":"","type":"Long","dbField":"PID","package":"","comments":"权限父ID","isDbField":true,"required":false,"requiredMessage":"必填项",
+        "pattern":"","patternMessage":"","gridShow":true,"sort":false,"listField":true,
+        "searchFieldType":"","addField":true,"editField": false,"isBaseField":false},
+    {"name":"rank","title":"","type":"String","dbField":"RANK","package":"","comments":"排序 默认为1","isDbField":true,"required":false,"requiredMessage":"必填项",
+        "pattern":"","patternMessage":"","gridShow":true,"sort":false,"listField":true,
+        "searchFieldType":"","addField":true,"editField": false,"isBaseField":false},
+    {"name":"state","title":"","type":"String","dbField":"STATE","package":"","comments":"权限状态 0 无效 1有效","isDbField":true,"required":false,"requiredMessage":"必填项",
+        "pattern":"","patternMessage":"","gridShow":true,"sort":false,"listField":true,
+        "searchFieldType":"","addField":true,"editField": false,"isBaseField":false},
+    {"name":"type","title":"","type":"String","dbField":"TYPE","package":"","comments":"权限类型 0 为菜单 1 为功能","isDbField":true,"required":false,"requiredMessage":"必填项",
+        "pattern":"","patternMessage":"","gridShow":true,"sort":false,"listField":true,
+        "searchFieldType":"","addField":true,"editField": false,"isBaseField":false},
+    {"name":"updateTime","title":"","type":"Date","dbField":"UPDATE_TIME","package":"","comments":"更新时间","isDbField":true,"required":false,"requiredMessage":"必填项",
+        "pattern":"","patternMessage":"","gridShow":true,"sort":false,"listField":true,
+        "searchFieldType":"","addField":true,"editField": false,"isBaseField":true},
+    {"name":"url","title":"","type":"String","dbField":"URL","package":"","comments":"权限路径","isDbField":true,"required":false,"requiredMessage":"必填项",
+        "pattern":"","patternMessage":"","gridShow":true,"sort":false,"listField":true,
+        "searchFieldType":"","addField":true,"editField": false,"isBaseField":false}
   ]
 }
 

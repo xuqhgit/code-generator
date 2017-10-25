@@ -10,6 +10,7 @@ reload(sys)
 sys.setdefaultencoding('utf8')
 src_root_path = "src"
 config_dir = 'config'
+page_dir = 'jsp'
 
 
 def load():
@@ -26,10 +27,12 @@ def mkdir(path):
         os.makedirs(path)
 
 
-def writeFile(package, str, fileName, fileType):
+def writeFile(dirPath, str, fileName, fileType):
     path = ''
     if fileType == 'java':
-        path = './%s/%s' % (src_root_path, package.replace(".", "/"))
+        path = './%s/%s' % (src_root_path, dirPath.replace(".", "/"))
+    elif fileType == 'jsp':
+        path = './%s/%s' % (src_root_path, page_dir+"/"+dirPath.replace(".", "/"))
     else:
         path = './%s/%s' % (src_root_path, config_dir)
     mkdir(path)
@@ -62,9 +65,11 @@ def handleData(data):
     for fj in data['fields']:
         fj['upperName'] = firstLetterUpper(fj['name'])
 
+
+
     if 'basePackage' not in data or data['basePackage'] == '':
         data['basePackage'] = data['package'][0:data['package'].rindex('.')]
-    data['mapperPackage']= data['basePackage'] + '.mapper'
+    data['mapperPackage'] = data['basePackage'] + '.mapper'
     data['servicePackage'] = data['basePackage'] + '.service'
     data['serviceImplPackage'] = data['basePackage'] + '.service.impl'
     data['controllerPackage'] = data['basePackage'] + '.controller'
@@ -85,12 +90,16 @@ def handleData(data):
 
 data = load()
 
-entityTemplate = tmplLoader.getEntityTmpl()
-mapperXmlTemplate = tmplLoader.getMapperXmlTmpl()
-mapperTemplate = tmplLoader.getMapperTmpl()
-serviceTemplate = tmplLoader.getServiceTmpl()
-serviceImplTemplate = tmplLoader.getServiceImplTmpl()
-controllerTemplate = tmplLoader.getContorllerTmpl()
+entityTemplate = tmplLoader.getTmpl("entity")
+mapperXmlTemplate = tmplLoader.getTmpl("mapperXml")
+mapperTemplate = tmplLoader.getTmpl("mapper")
+serviceTemplate = tmplLoader.getTmpl("service")
+serviceImplTemplate = tmplLoader.getTmpl("serviceImpl")
+controllerTemplate = tmplLoader.getTmpl("controller")
+addTemplate = tmplLoader.getTmpl("add")
+editTemplate = tmplLoader.getTmpl("edit")
+indexTemplate = tmplLoader.getTmpl("index")
+validConstantTemplate = tmplLoader.getTmpl("validConstant")
 
 for j in data:
     if j['className']:
@@ -113,4 +122,15 @@ for j in data:
 
         controllerStr = controllerTemplate.render(j)
         writeFile(j['controllerPackage'], controllerStr, j['controllerClass'], 'java')
+
+        if addTemplate:
+            addStr = addTemplate.render(j)
+            writeFile(j['sClassName'], addStr, 'add', 'jsp')
+        if editTemplate:
+            editStr = editTemplate.render(j)
+            writeFile(j['sClassName'], editStr, 'edit', 'jsp')
+
+        if indexTemplate:
+            indexStr = indexTemplate.render(j)
+            writeFile(j['sClassName'], indexStr, 'index', 'jsp')
     pass

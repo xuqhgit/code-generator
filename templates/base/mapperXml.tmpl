@@ -4,7 +4,7 @@
 <mapper namespace="{{ mapperPackage }}.{{ mapperClass }}">
 
 	<sql id="{{ sClassName }}Columns">
-        {% for field in dbFields %}{{ sClassName }}.{{ field.dbField }} as {{ field.name }}{% if not loop.last %},{% endif %}{% endfor %}
+        {% for field in dbFields %}{{ dbTableAlias }}.{{ field.dbField }} as {{ field.name }}{% if not loop.last %},{% endif %}{% endfor %}
 	</sql>
 
 	<!-- 修改 -->
@@ -21,12 +21,12 @@
 	</update>
 
 
-	<insert id="insert" parameterType="{{ sClassName }}">
+	<insert id="insert" parameterType="{{ sClassName }}" {% if idGenerator=='AUTO' %}useGeneratedKeys="true" keyProperty="id"{% endif %}   >
 		INSERT INTO {{ table }}(
 			{% for field in dbFields %}{{ field.dbField }}{% if not loop.last %},{% endif %}{% endfor %}
 		)
 		VALUES(
-			{% for field in dbFields %}#{ {{ field.name }} }{% if not loop.last %},{% endif %}{% endfor %}
+			{% for field in dbFields %} {% if idGenerator=='GUID()' and field.dbField=='ID' %} GUID() {% elif idGenerator.find("SEQ")>-1 and  field.dbField=='ID' %}  {{idGenerator}}.NEXTVAL{% elif db=='MYSQL' and field.dbField=='UPDATE_TIME' %} now() {% elif db=='ORACLE' and  field.dbField=='UPDATE_TIME' %}  SYSDATE {% else %} #{ {{ field.name }} } {% endif %}{% if not loop.last %},{% endif %}{% endfor %}
 		)
 	</insert>
 
@@ -35,7 +35,7 @@
 	<select id="get" parameterType="java.lang.Long" resultType="{{ sClassName }}">
 		SELECT
 		<include refid="{{ sClassName }}Columns" />
-		FROM  {{ table }} {{ sClassName }}
+		FROM  {{ table }} {{ dbTableAlias }}
 		where id = #{ id }
 	</select>
 
@@ -43,13 +43,27 @@
 	<select id="getList"  resultType="{{ sClassName }}">
 		select
 		<include refid="{{ sClassName }}Columns" />
-		from {{ table }} {{ sClassName }}
+		from {{ table }} {{ dbTableAlias }}
 	</select>
 
-	<select id="getListByFilter" parameterType="com.sunon.bet.ms.common.dto.QueryFilter"  resultType="{{ sClassName }}">
+	<select id="getListByPage" parameterType="com.anchor.core.common.query.QueryPage"  resultType="{{ sClassName }}">
 		select
 		<include refid="{{ sClassName }}Columns" />
-		from {{ table }} {{ sClassName }}
+		from {{ table }} {{ dbTableAlias }}
+        <where>
+            {% for field in dbFields %}  {% if field.searchFieldType and field.searchFieldType=='like' %}
+			<if test="t.{{ field.name }}!=null and t.{{ field.name }}!=''">
+				and instr({{ dbTableAlias }}.{{ field.dbField }},#{ t.{{ field.name }} })>0
+			</if>{% endif %}{% endfor %}
+		</where>
+		<choose>
+			<when test="sort!=null and sortOrder!=null">
+				order by {{ dbTableAlias }}.${sort} ${sortOrder}
+			</when>
+			<otherwise>
+				order by {{ dbTableAlias }}.CREATE_TIME DESC
+			</otherwise>
+		</choose>
 	</select>
 
 </mapper>

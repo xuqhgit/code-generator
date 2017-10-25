@@ -1,4 +1,4 @@
-package {{ controllerPackage }};
+package com.anchor.ms.auth.controller;
 
 import com.anchor.core.common.base.BaseController;
 import com.anchor.core.common.dto.QueryFilter;
@@ -13,22 +13,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import {{ servicePackage }}.{{ serviceClass }};
-import {{ package }}.{{ className }};
+import com.anchor.ms.auth.service.IPermissionService;
+import com.anchor.ms.auth.model.Permission;
 
 /**
- * @ClassName: {{ controllerClass }}
- * @Description: {{ description }}
- * @author {{ author }}
- * @date {{ date }}
+ * @ClassName: PermissionController
+ * @Description: 
+ * @author xuqh
+ * @date 2017-10-25 19:01:02
  * @since version 1.0
  */
 @Controller
 @RequestMapping("[path]")
-public class {{ controllerClass }} extends BaseController{
+public class PermissionController extends BaseController{
 
     @Autowired
-	private {{ serviceClass }} {{ sServiceClass }};
+	private IPermissionService permissionService;
 
 	public final static String PATH_INDEX="[path]/index";
     public final static String PATH_ADD_INDEX="[path]/add";
@@ -49,9 +49,9 @@ public class {{ controllerClass }} extends BaseController{
     }
     @RequestMapping(value="add",method = RequestMethod.POST)
     @ResponseBody
-    public Result add({{ className }} {{ sClassName }}){
+    public Result add(Permission permission){
         try{
-            {{ sServiceClass }}.insert({{ sClassName }});
+            permissionService.insert(permission);
         }catch (Exception e){
            return new Result().error("添加失败：" + e.getMessage());
         }
@@ -64,15 +64,15 @@ public class {{ controllerClass }} extends BaseController{
     public ModelAndView edit(@PathVariable("id") long id){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName(PATH_EDIT_INDEX);
-        modelAndView.getModelMap().put("{{ sClassName }}",{{ sServiceClass }}.get(id));
+        modelAndView.getModelMap().put("permission",permissionService.get(id));
         return modelAndView;
     }
 
     @RequestMapping(value="edit",method = RequestMethod.POST)
     @ResponseBody
-    public Result edit({{ className }} {{ sClassName }}){
+    public Result edit(Permission permission){
         try{
-            {{ sServiceClass }}.update({{ sClassName }});
+            permissionService.update(permission);
         }catch (Exception e){
            return new Result().error("修改失败：" + e.getMessage());
         }
@@ -83,7 +83,7 @@ public class {{ controllerClass }} extends BaseController{
     @ResponseBody
     public Result get(@PathVariable("id") long id){
         try{
-            return new ResultObject().setData({{ sServiceClass }}.get(id));
+            return new ResultObject().setData(permissionService.get(id));
         }catch (Exception e){
             e.printStackTrace();
             return new Result().error("获取失败：" + e.getMessage());
@@ -94,7 +94,7 @@ public class {{ controllerClass }} extends BaseController{
     @ResponseBody
     public Result list(){
         try{
-            return new ResultObject().setData({{ sServiceClass }}.getList());
+            return new ResultObject().setData(permissionService.getList());
         }catch (Exception e){
             return new Result().error("获取失败：" + e.getMessage());
         }
@@ -102,11 +102,11 @@ public class {{ controllerClass }} extends BaseController{
 
     @RequestMapping(value="grid")
     @ResponseBody
-    public Result grid(QueryFilter<{{ className }}> queryFilter,{{ className }} {{ sClassName }}){
+    public Result grid(QueryFilter<Permission> queryFilter,Permission permission){
         try{
-            queryFilter.setT({{ sClassName }});
-            PageInfo<{{ className }}> pageInfo = {{ sServiceClass }}.getPageInfo(queryFilter);
-            ResultGrid resultGrid = new ResultGrid<{{ className }}>();
+            queryFilter.setT(permission);
+            PageInfo<Permission> pageInfo = permissionService.getPageInfo(queryFilter);
+            ResultGrid resultGrid = new ResultGrid<Permission>();
             resultGrid.setRows(pageInfo.getList());
             resultGrid.setTotal(pageInfo.getTotal());
             return resultGrid;
@@ -116,5 +116,4 @@ public class {{ controllerClass }} extends BaseController{
     }
 
 }
-
 

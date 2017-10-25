@@ -1,17 +1,22 @@
 [
 {% for d in list %}
 {
+  "db":"{{ d.db }}",
   "className":"{{ d.className }}",
+  "title":"",
   "package":"{{ d.package }}",
   "table":"{{ d.table }}",
   "basePackage":"{{ d.basePackage }}",
   "description":"{{ d.description }}",
   "author":"{{ d.author }}",
+  "path":"",
+  "dbTableAlias":"{{ d.className }}",
+  "idGenerator":"AUTO",
   "fields":[
     {% for field in d.fields %}
-    {"name":"{{ field.field }}","type":"","dbField":"{{ field.dbField }}","package":"","comments":"{{ field.comments }}","isDbField":true,"isBaseField":{{ field.isBaseField }} }{% if not loop.last %},{% endif %}
-    {% endfor %}
-
+    {"name":"{{ field.field }}","title":"{{ title }}","type":"String","dbField":"{{ field.dbField }}","package":"","comments":"{{ field.comments }}","isDbField":true,"required":{{ field.required}},"requiredMessage":"{{ field.requiredMessage}}",
+        "pattern":"{{ field.pattern }}","patternMessage":"{{ field.patternMessage }}","gridShow":true,"sort":false,"listField":true,
+        "searchFieldType":"{{ field.searchFieldType }}","addField":{{ field.addField }},"editField": {{ field.editField }},"isBaseField":{{ field.isBaseField }}}{% if not loop.last %},{% endif %}{% endfor %}
   ]
 }{% if not loop.last %},{% endif %}
 {% endfor %}

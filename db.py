@@ -55,7 +55,10 @@ def getColInfo(table):
     if db_type == 'ORACLE':
         dict_keys = [r[0] for r in cursor.description]
         for row in data:
-            r = (row[0], row[1].decode('gbk'))
+            if row[1]:
+                r = (row[0], row[1].decode('gbk'))
+            else:
+                r = (row[0], row[1])
             dict_rows.append(dict(zip(dict_keys, r)))
         data = dict_rows
     cursor.close()

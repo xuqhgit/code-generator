@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.anchor.ms.auth.mapper.PermissionMapper">
+
+	<sql id="permissionColumns">
+        permission.CODE as code,permission.CREATE_TIME as createTime,permission.CREATOR_ID as creatorId,permission.ICON as icon,permission.ID as id,permission.NAME as name,permission.PID as pid,permission.RANK as rank,permission.STATE as state,permission.TYPE as type,permission.UPDATE_TIME as updateTime,permission.URL as url
+	</sql>
+
+	<!-- 修改 -->
+	<update id="update" parameterType="permission">
+		update SYS_PERMISSION
+		<set>
+			
+			<if test="code != null">
+				CODE = #{ code },
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{ createTime },
+			</if>
+			<if test="creatorId != null">
+				CREATOR_ID = #{ creatorId },
+			</if>
+			<if test="icon != null">
+				ICON = #{ icon },
+			</if>
+			<if test="id != null">
+				ID = #{ id },
+			</if>
+			<if test="name != null">
+				NAME = #{ name },
+			</if>
+			<if test="pid != null">
+				PID = #{ pid },
+			</if>
+			<if test="rank != null">
+				RANK = #{ rank },
+			</if>
+			<if test="state != null">
+				STATE = #{ state },
+			</if>
+			<if test="type != null">
+				TYPE = #{ type },
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{ updateTime },
+			</if>
+			<if test="url != null">
+				URL = #{ url },
+			</if>
+
+		</set>
+		where ID = #{id}
+	</update>
+
+
+	<insert id="insert" parameterType="permission" useGeneratedKeys="true" keyProperty="id"   >
+		INSERT INTO SYS_PERMISSION(
+			CODE,CREATE_TIME,CREATOR_ID,ICON,ID,NAME,PID,RANK,STATE,TYPE,UPDATE_TIME,URL
+		)
+		VALUES(
+			  #{ code } ,  #{ createTime } ,  #{ creatorId } ,  #{ icon } ,  #{ id } ,  #{ name } ,  #{ pid } ,  #{ rank } ,  #{ state } ,  #{ type } ,  now() ,  #{ url } 
+		)
+	</insert>
+
+
+	<!-- 根据主键获取 -->
+	<select id="get" parameterType="java.lang.Long" resultType="permission">
+		SELECT
+		<include refid="permissionColumns" />
+		FROM  SYS_PERMISSION permission
+		where id = #{ id }
+	</select>
+
+	<!-- 获取列表 -->
+	<select id="getList"  resultType="permission">
+		select
+		<include refid="permissionColumns" />
+		from SYS_PERMISSION permission
+	</select>
+
+	<select id="getListByPage" parameterType="com.anchor.core.common.query.QueryPage"  resultType="permission">
+		select
+		<include refid="permissionColumns" />
+		from SYS_PERMISSION permission
+        <where>
+              
+			<if test="t.code!=null and t.code!=''">
+				and instr(permission.CODE,#{ t.code })>0
+			</if>                      
+		</where>
+		<choose>
+			<when test="sort!=null and sortOrder!=null">
+				order by permission.${sort} ${sortOrder}
+			</when>
+			<otherwise>
+				order by permission.CREATE_TIME DESC
+			</otherwise>
+		</choose>
+	</select>
+
+</mapper>
