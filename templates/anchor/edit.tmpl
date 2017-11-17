@@ -11,8 +11,8 @@
                 {% for field in fields %}
                 {%- if  field.editField  -%}
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">{{ field.title }}：</label>
-                    <div class="col-sm-9">
+                    <label class="col-sm-2 control-label">{{ field.title }}：</label>
+                    <div class="col-sm-8">
                          <input type="text" name="{{ field.name }}" value="${ {{ sClassName }}.{{ field.name }} }" class="form-control {% if field.type=='Date' %}form_datetime{% endif %}" placeholder="{{ field.patternMessage }}">
                     </div>
                 </div>
