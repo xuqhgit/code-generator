@@ -1,7 +1,6 @@
 package {{ controllerPackage }};
 
 import com.anchor.core.common.base.BaseController;
-import com.anchor.core.common.dto.QueryFilter;
 import com.anchor.core.common.dto.Result;
 import com.anchor.core.common.dto.ResultGrid;
 import com.anchor.core.common.dto.ResultObject;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import {{ servicePackage }}.{{ serviceClass }};
 import {{ package }}.{{ className }};

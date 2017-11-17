@@ -61,7 +61,7 @@
     {% for field in fields %}{% if  field.required  or  field.pattern != ""  %}
         {{ field.name }}:{
             rule:{
-                required:{{ field.required }},
+                required:{% if field.required %}true{% else %}false{% endif %},
                 {% if field.pattern != "" %}{{ field.name}}Valid:true {% endif %}
             },
             message:{
