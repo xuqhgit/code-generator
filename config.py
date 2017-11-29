@@ -4,9 +4,13 @@
 import ConfigParser
 
 
-config_name = "code.conf"
+base_config_name = "config.conf"
+bcp = ConfigParser.SafeConfigParser()
+bcp.read(base_config_name)
+branches_config=bcp.get("info", "config")
+branches_config_name = "templates/%s/config.conf" % branches_config
 cp = ConfigParser.SafeConfigParser()
-cp.read(config_name)
+cp.read(branches_config_name)
 
 
 def get(s, k):
