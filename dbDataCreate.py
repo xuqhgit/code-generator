@@ -37,7 +37,8 @@ for a in arr:
     for f in data:
         f['dbField'] = f['DBFIELD']
         f['comments'] = f['COMMENTS']
-        f['field'] = stringUtil.propertyToField(f['dbField'].lower())
+
+        f['field'] = stringUtil.propertyToField(f['dbField'].find('_') == -1 and f['dbField'] or f['dbField'].lower())
         f['isBaseField'] = f['field'] in baseFieldsArr and 'true' or 'false'
         f['title'] = ''
         f['required'] = 'false'

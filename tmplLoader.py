@@ -2,6 +2,10 @@
 from jinja2 import Template, FileSystemLoader
 import os
 import config
+from jinja2.environment import Environment
+env = Environment()
+env.loader = FileSystemLoader('.')
+
 
 _dir = os.path.dirname(__file__)
 loader = FileSystemLoader(_dir)
@@ -17,7 +21,8 @@ def getTmpl(templateName):
     for i in reversed(templateDirArr):
         path = "templates/%s/%s.tmpl" % (i, templateName)
         try:
-            t = Template(loader.get_source("", path)[0])
+            # t = Template(loader.get_source("", path)[0])
+            t = env.get_template(path)
         except BaseException, e:
             print path, e.message
         if t:
