@@ -16,9 +16,9 @@ os.environ['NLS_LANG'] = 'SIMPLIFIED CHINESE_CHINA.ZHS16GBK'
 
 
 
-or_col_sql = "select COLUMN_NAME as DBFIELD,comments as COMMENTS from user_col_comments where Table_Name='%s' order by column_name"
+or_col_sql = "select COLUMN_NAME as DBFIELD,comments as COMMENTS from user_col_comments where Table_Name='%s' "
 
-my_col_sql = "select  COLUMN_NAME as DBFIELD,COLUMN_COMMENT as COMMENTS  FROM information_schema.`COLUMNS` where TABLE_NAME = '%s' order by column_name"
+my_col_sql = "select  COLUMN_NAME as DBFIELD,COLUMN_COMMENT as COMMENTS,DATA_TYPE as dataType  FROM information_schema.`COLUMNS` where TABLE_NAME = '%s'  and TABLE_SCHEMA='%s' "
 
 db_type = str(config.get('db', 'type')).upper()
 host = config.get('db', 'host')
@@ -44,7 +44,7 @@ def getColInfo(table):
         # conn = MySQLdb.connect(host=host,user=user,passwd=password, db=db, charset="utf8")
         cursor = conn.cursor(dictionary=True)
         sql = my_col_sql
-        _sql = sql % table
+        _sql = sql % (table, database)
     # 使用cursor()方法获取操作游标
 
 

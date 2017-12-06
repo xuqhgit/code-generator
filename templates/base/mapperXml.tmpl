@@ -6,7 +6,15 @@
 	<sql id="{{ sClassName }}Columns">
         {% for field in dbFields %}{{ dbTableAlias }}.{{ field.dbField }} as {{ field.name }}{% if not loop.last %},{% endif %}{% endfor %}
 	</sql>
-
+    <resultMap id="{{ sClassName }}ResultMap" type="{{ package }}.{{ className }}" >
+    {%- for field in dbFields -%}
+    {% if field.name=='id' %}
+    <id column="id" property="id" jdbcType="{{ field.jdbcType }}" />
+    {% else %}
+    <result column="{{ field.dbField }}" property="{{ field.name }}" jdbcType="{{ field.jdbcType }}" />
+    {%- endif -%}
+    {% endfor %}
+    </resultMap>
 	<!-- 修改 -->
 	<update id="update" parameterType="{{ sClassName }}">
 		update {{ table }}
@@ -56,7 +64,7 @@
 			<if test="t.{{ field.name }}!=null and t.{{ field.name }}!=''">
 				and instr({{ dbTableAlias }}.{{ field.dbField }},#{ t.{{ field.name }} })>0
 			</if>
-			<% elif field.searchFieldType and field.searchFieldType=='equals'%>
+			{% elif field.searchFieldType and field.searchFieldType=='equals' %}
 			<if test="t.{{ field.name }}!=null and t.{{ field.name }}!=''">
 				and {{ dbTableAlias }}.{{ field.dbField }}=#{ t.{{ field.name }} }
 			</if>

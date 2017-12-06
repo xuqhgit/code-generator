@@ -3,8 +3,10 @@
 import json
 import time
 import tmplLoader
+import dataRW
 import os
 import sys
+
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -14,8 +16,8 @@ page_dir = 'jsp'
 
 
 def load():
-    with open('data.json') as json_file:
-        return json.load(json_file)
+    return dataRW.dataReadJson()
+
 
 
 def mkdir(path):
@@ -73,6 +75,7 @@ def handleData(data):
     data['servicePackage'] = data['basePackage'] + '.service'
     data['serviceImplPackage'] = data['basePackage'] + '.service.impl'
     data['controllerPackage'] = data['basePackage'] + '.controller'
+    data['dtoPackage'] = data['basePackage'] + '.dto'
 
     data['mapperClass'] = data['className'] + 'Mapper'
     data['sMapperClass'] = data['sClassName'] + 'Mapper'
@@ -85,6 +88,10 @@ def handleData(data):
 
     data['controllerClass'] = data['className'] + 'Controller'
     data['sControllerClass'] = data['sClassName'] + 'Controller'
+
+    data['dtoClass'] = data['className'] + 'DTO'
+    data['sDtoClass'] = data['sClassName'] + 'DTO'
+
     setDbFields(data)
 
 
@@ -100,7 +107,7 @@ addTemplate = tmplLoader.getTmpl("add")
 editTemplate = tmplLoader.getTmpl("edit")
 indexTemplate = tmplLoader.getTmpl("index")
 validConstantTemplate = tmplLoader.getTmpl("validConstant")
-
+dtoTemplate = tmplLoader.getTmpl("dto")
 
 
 
@@ -108,23 +115,32 @@ for j in data:
     if j['className']:
         handleData(j)
 
-        javaStr = entityTemplate.render(j)
-        writeFile(j['package'], javaStr, j['className'], 'java')
+        if entityTemplate:
+            javaStr = entityTemplate.render(j)
+            writeFile(j['package'], javaStr, j['className'], 'java')
+        if dtoTemplate:
+            dtoStr = dtoTemplate.render(j)
+            writeFile(j['dtoPackage'], dtoStr, j['dtoClass'], 'java')
 
-        mapperXmlStr = mapperXmlTemplate.render(j)
-        writeFile(j['package'], mapperXmlStr, j['mapperClass'], 'xml')
+        if mapperXmlTemplate:
+            mapperXmlStr = mapperXmlTemplate.render(j)
+            writeFile(j['package'], mapperXmlStr, j['mapperClass'], 'xml')
 
-        mapperStr = mapperTemplate.render(j)
-        writeFile(j['mapperPackage'], mapperStr, j['mapperClass'], 'java')
+        if mapperTemplate:
+            mapperStr = mapperTemplate.render(j)
+            writeFile(j['mapperPackage'], mapperStr, j['mapperClass'], 'java')
 
-        serviceStr = serviceTemplate.render(j)
-        writeFile(j['servicePackage'], serviceStr, j['serviceClass'], 'java')
+        if serviceTemplate:
+            serviceStr = serviceTemplate.render(j)
+            writeFile(j['servicePackage'], serviceStr, j['serviceClass'], 'java')
 
-        serviceImplStr = serviceImplTemplate.render(j)
-        writeFile(j['serviceImplPackage'], serviceImplStr, j['serviceImplClass'], 'java')
+        if serviceImplTemplate:
+            serviceImplStr = serviceImplTemplate.render(j)
+            writeFile(j['serviceImplPackage'], serviceImplStr, j['serviceImplClass'], 'java')
 
-        controllerStr = controllerTemplate.render(j)
-        writeFile(j['controllerPackage'], controllerStr, j['controllerClass'], 'java')
+        if controllerTemplate:
+            controllerStr = controllerTemplate.render(j)
+            writeFile(j['controllerPackage'], controllerStr, j['controllerClass'], 'java')
 
         if addTemplate:
             addStr = addTemplate.render(j)

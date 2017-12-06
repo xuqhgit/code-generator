@@ -89,7 +89,7 @@
             },
             columns: [
                 {checkbox: true},
-                 {% for field in fields %}{% if  field.gridShow  %}
+                 {% for field in fields %}{% if  field.listShow  %}
                 {title: '{{ field.title }}', field: '{{ field.name }}', align: 'center'{% if  field.sort  %},sortable: true{% endif %}, width: '100'},{% endif %}
                 {% endfor %}
                 {
