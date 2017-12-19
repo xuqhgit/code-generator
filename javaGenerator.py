@@ -34,7 +34,7 @@ def writeFile(dirPath, str, fileName, fileType):
     elif fileType == 'jsp':
         path = './%s/%s' % (src_root_path, page_dir + "/" + dirPath.replace(".", "/"))
     else:
-        path = './%s/%s' % (src_root_path, config_dir)
+        path = './%s/%s' % (src_root_path, dirPath.replace(".", "/"))
     mkdir(path)
     file_object = open('%s/%s.%s' % (path, fileName, fileType), 'w')
     file_object.write(str)
@@ -119,7 +119,7 @@ for j in data:
 
         if mapperXmlTemplate:
             mapperXmlStr = mapperXmlTemplate.render(j)
-            writeFile(j['package'], mapperXmlStr, j['mapperClass'], 'xml')
+            writeFile('mapper', mapperXmlStr, j['mapperClass'], 'xml')
 
         if mapperTemplate:
             mapperStr = mapperTemplate.render(j)
