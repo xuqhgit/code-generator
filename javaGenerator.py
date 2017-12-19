@@ -7,7 +7,6 @@ import dataRW
 import os
 import sys
 
-
 reload(sys)
 sys.setdefaultencoding('utf8')
 src_root_path = "src"
@@ -17,7 +16,6 @@ page_dir = 'jsp'
 
 def load():
     return dataRW.dataReadJson()
-
 
 
 def mkdir(path):
@@ -34,7 +32,7 @@ def writeFile(dirPath, str, fileName, fileType):
     if fileType == 'java':
         path = './%s/%s' % (src_root_path, dirPath.replace(".", "/"))
     elif fileType == 'jsp':
-        path = './%s/%s' % (src_root_path, page_dir+"/"+dirPath.replace(".", "/"))
+        path = './%s/%s' % (src_root_path, page_dir + "/" + dirPath.replace(".", "/"))
     else:
         path = './%s/%s' % (src_root_path, config_dir)
     mkdir(path)
@@ -67,8 +65,6 @@ def handleData(data):
     for fj in data['fields']:
         fj['upperName'] = firstLetterUpper(fj['name'])
 
-
-
     if 'basePackage' not in data or data['basePackage'] == '':
         data['basePackage'] = data['package'][0:data['package'].rindex('.')]
     data['mapperPackage'] = data['basePackage'] + '.mapper'
@@ -80,7 +76,7 @@ def handleData(data):
     data['mapperClass'] = data['className'] + 'Mapper'
     data['sMapperClass'] = data['sClassName'] + 'Mapper'
 
-    data['serviceClass'] = "I"+data['className'] + 'Service'
+    data['serviceClass'] = "I" + data['className'] + 'Service'
     data['sServiceClass'] = data['sClassName'] + 'Service'
 
     data['serviceImplClass'] = data['className'] + 'ServiceImpl'
@@ -108,8 +104,7 @@ editTemplate = tmplLoader.getTmpl("edit")
 indexTemplate = tmplLoader.getTmpl("index")
 validConstantTemplate = tmplLoader.getTmpl("validConstant")
 dtoTemplate = tmplLoader.getTmpl("dto")
-
-
+extTemplate = tmplLoader.getExtTemplate()
 
 for j in data:
     if j['className']:
@@ -152,4 +147,11 @@ for j in data:
         if indexTemplate:
             indexStr = indexTemplate.render(j)
             writeFile(j['sClassName'], indexStr, 'index', 'jsp')
+
+        if extTemplate:
+            for e in extTemplate:
+                extJson = extTemplate[e]
+                tmplStr = extJson['template'].render(j)
+                writeFile(tmplLoader.renderStr(extJson['path'], j), tmplStr, tmplLoader.renderStr(extJson["fileName"], j),
+                          extJson['type'])
     pass
