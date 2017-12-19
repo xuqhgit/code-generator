@@ -14,6 +14,21 @@ cp.read(branches_config_name)
 
 
 def get(s, k):
+    """
+    获取子某块信息
+    :param s:
+    :param k:
+    :return:
+    """
     return cp.get(s, k)
+
+def getMainConfig(s,k):
+    """
+    获取主配置信息
+    :param s:
+    :param k:
+    :return:
+    """
+    return bcp.get(s, k)
 
 

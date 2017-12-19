@@ -7,6 +7,7 @@ import stringUtil
 import tmplLoader
 import dataRW
 import sys
+import json
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -22,6 +23,11 @@ if baseFields:
     baseFieldsArr = baseFields.split(",")
 arr = tables.split(";")
 result = []
+dbConvertJdbcStr = config.getMainConfig("db", "dbConvertJdbc")
+dbConvertJdbcJson = {}
+if dbConvertJdbcStr:
+    dbConvertJdbcJson=json.loads(str(dbConvertJdbcStr))
+
 for a in arr:
     d = a.split(",", 2)
     length = len(d)
@@ -38,18 +44,20 @@ for a in arr:
     for f in data:
         f['dbField'] = f['DBFIELD']
         f['comments'] = f['COMMENTS']
-        f['dataType'] = f['dataType'] and f['dataType'].upper() or None
         f['field'] = stringUtil.propertyToField(f['dbField'].find('_') == -1 and f['dbField'] or f['dbField'].lower())
         f['isBaseField'] = f['field'] in baseFieldsArr and 'true' or 'false'
         f['title'] = ''
         f['required'] = 'false'
-        f['requiredMessage'] = '必填项'
+        f['requiredMessage'] = ''
         f['pattern'] = ''
         f['patternMessage'] = ''
         # equal like gt lt
         f['searchFieldType'] = ''
         f['addField'] = 'true'
         f['editField'] = 'false'
+        f['dataType'] = f['dataType'] and f['dataType'].upper() or None
+        if dbConvertJdbcJson.has_key(f['dataType']):
+            f['dataType'] = dbConvertJdbcJson[f['dataType']]
     j = {'table': table_name, 'className': table_alias, 'fields': data, "db": db_type,
          'author': author, 'basePackage': basePackage, 'package': '%s.%s' % (basePackage, baseEntity)}
     result.append(j)
