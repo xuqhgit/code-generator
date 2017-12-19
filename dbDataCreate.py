@@ -27,6 +27,10 @@ dbConvertJdbcStr = config.getMainConfig("db", "dbConvertJdbc")
 dbConvertJdbcJson = {}
 if dbConvertJdbcStr:
     dbConvertJdbcJson=json.loads(str(dbConvertJdbcStr))
+jdbcConvertJavaStr = config.getMainConfig("db", "jdbcConvertJava")
+jdbcConvertJavaJson = {}
+if jdbcConvertJavaStr:
+    jdbcConvertJavaJson=json.loads(str(jdbcConvertJavaStr))
 
 for a in arr:
     d = a.split(",", 2)
@@ -58,6 +62,9 @@ for a in arr:
         f['dataType'] = f['dataType'] and f['dataType'].upper() or None
         if dbConvertJdbcJson.has_key(f['dataType']):
             f['dataType'] = dbConvertJdbcJson[f['dataType']]
+        f['type'] = 'String'
+        if jdbcConvertJavaJson.has_key(f['dataType']):
+            f['type'] = jdbcConvertJavaJson[f['dataType']]
     j = {'table': table_name, 'className': table_alias, 'fields': data, "db": db_type,
          'author': author, 'basePackage': basePackage, 'package': '%s.%s' % (basePackage, baseEntity)}
     result.append(j)
