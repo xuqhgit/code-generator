@@ -48,10 +48,10 @@ def getExtTemplate():
     获取扩展的模板
     :return:
     """
-    extStr = config.get('info', 'extTemplate')
-    if extStr is None:
-        return
-    extArr = json.loads(str(extStr))
+    with open('templates/%s/extTemplate.json' % templateDirArr[len(templateDirArr)-1]) as json_file:
+        if json_file is None:
+            return
+        extArr = json.load(json_file)
     extJson = {}
     for ext in extArr:
         e = {}
