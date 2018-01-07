@@ -8,7 +8,7 @@ import sys
 
 import mysql.connector as connor
 import config
-import cx_Oracle
+
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -31,7 +31,7 @@ conn = None
 
 def getColInfo(table):
     if db_type == 'ORACLE':
-
+        import cx_Oracle
         conn = cx_Oracle.connect('%s/%s@%s' % (user, password, host))
         cursor = conn.cursor()
         sql = or_col_sql
