@@ -14,7 +14,7 @@
   "idGenerator":"AUTO",
   "fields":[
     {% for field in d.fields %}
-    {"name":"{{ field.field }}","title":"{{ title }}","type":"String","{{ field.type }}":"{{ field.dbField }}","package":"","comments":"{{ field.comments }}","isDbField":true,"required":{{ field.required}},"requiredMessage":"{{ field.requiredMessage}}",
+    {"name":"{{ field.field }}","title":"{{ title }}","type":"{{ field.type }}","dbField":"{{ field.dbField }}","package":"","comments":"{{ field.comments }}","isDbField":true,"required":{{ field.required}},"requiredMessage":"{{ field.requiredMessage}}",
         "pattern":"{{ field.pattern }}","patternMessage":"{{ field.patternMessage }}","gridShow":true,"sort":false,"listField":true,
         "searchFieldType":"{{ field.searchFieldType }}","addField":{{ field.addField }},"editField": {{ field.editField }},"isBaseField":{{ field.isBaseField }}}{% if not loop.last %},{% endif %}{% endfor %}
   ]
