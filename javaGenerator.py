@@ -111,29 +111,43 @@ for j in data:
         handleData(j)
 
         if entityTemplate:
+            j['fileName'] = j['className']
+            j['fileType'] = 'java'
             javaStr = entityTemplate.render(j)
             writeFile(j['package'], javaStr, j['className'], 'java')
         if dtoTemplate:
+            j['fileName'] = j['dtoClass']
+            j['fileType'] = 'java'
             dtoStr = dtoTemplate.render(j)
             writeFile(j['dtoPackage'], dtoStr, j['dtoClass'], 'java')
 
         if mapperXmlTemplate:
+            j['fileName'] = j['mapperClass']
+            j['fileType'] = 'xml'
             mapperXmlStr = mapperXmlTemplate.render(j)
             writeFile('mapper', mapperXmlStr, j['mapperClass'], 'xml')
 
         if mapperTemplate:
+            j['fileName'] = j['mapperClass']
+            j['fileType'] = 'java'
             mapperStr = mapperTemplate.render(j)
             writeFile(j['mapperPackage'], mapperStr, j['mapperClass'], 'java')
 
         if serviceTemplate:
+            j['fileName'] = j['serviceClass']
+            j['fileType'] = 'java'
             serviceStr = serviceTemplate.render(j)
             writeFile(j['servicePackage'], serviceStr, j['serviceClass'], 'java')
 
         if serviceImplTemplate:
+            j['fileName'] = j['serviceImplClass']
+            j['fileType'] = 'java'
             serviceImplStr = serviceImplTemplate.render(j)
             writeFile(j['serviceImplPackage'], serviceImplStr, j['serviceImplClass'], 'java')
 
         if controllerTemplate:
+            j['fileName'] = j['controllerClass']
+            j['fileType'] = 'java'
             controllerStr = controllerTemplate.render(j)
             writeFile(j['controllerPackage'], controllerStr, j['controllerClass'], 'java')
 
@@ -151,7 +165,10 @@ for j in data:
         if extTemplate:
             for e in extTemplate:
                 extJson = extTemplate[e]
+                fileName = tmplLoader.renderStr(extJson["fileName"], j)
+                fileType = extJson['type']
+                j['fileName'] = fileName
+                j['fileType'] = fileType
                 tmplStr = extJson['template'].render(j)
-                writeFile(tmplLoader.renderStr(extJson['path'], j), tmplStr, tmplLoader.renderStr(extJson["fileName"], j),
-                          extJson['type'])
+                writeFile(tmplLoader.renderStr(extJson['path'], j), tmplStr, fileName,fileType)
     pass

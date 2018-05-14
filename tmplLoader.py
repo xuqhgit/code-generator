@@ -28,7 +28,12 @@ def getTmpl(templateName):
         except BaseException, e:
             print path, e.message
         if t:
-            break
+            return t
+    return t
+
+def getPathTmpl(path,templateName):
+    path = "templates/%s/%s.tmpl" % (path, templateName)
+    t = env.get_template(path)
     return t
 
 
