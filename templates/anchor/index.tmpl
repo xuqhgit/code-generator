@@ -94,15 +94,15 @@
                     title: '操作', field: 'opt', align: 'center', width: '120', formatter: function (index, row) {
                     var opts = "";
                     <shiro:hasPermission name="{{ path }}:get">
-                        opts += "<a href='javascript:void(0);' class='btn btn-xs' onclick=\"detail{{ className }}(\'" + row.id + "\')\">查看</a>|";
+                        opts += "|<a href='javascript:void(0);' class='btn btn-xs' onclick=\"detail{{ className }}(\'" + row.id + "\')\">查看</a>";
                     </shiro:hasPermission>
                     <shiro:hasPermission name="{{ path }}:edit:index">
-                        opts += "<a href='javascript:void(0);' class='btn btn-xs' onclick=\"edit{{ className }}(\'" + row.id + "\')\">编辑</a>|";
+                        opts += "|<a href='javascript:void(0);' class='btn btn-xs' onclick=\"edit{{ className }}(\'" + row.id + "\')\">编辑</a>";
                     </shiro:hasPermission>
                     <shiro:hasPermission name="{{ path }}:delete">
-                        opts += "<a href='javascript:void(0);' class='btn btn-xs' onclick=\"delete{{ className }}(\'" + row.id + "\')\">删除</a>";
+                        opts += "|<a href='javascript:void(0);' class='btn btn-xs' onclick=\"delete{{ className }}(\'" + row.id + "\')\">删除</a>";
                     </shiro:hasPermission>
-                    return opts;
+                    return opts.substring(1);
                 }
                 }
             ]
