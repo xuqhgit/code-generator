@@ -1,0 +1,92 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+        {% include  "html/generate/input/"+ctx.inputTemplate+".html" %}
+        {% include  "html/generate/templateSelect.html" %}
+        <button id="generateCodeBtn" data-loading-text="构建中..." type="button" class="btn btn-primary">构建</button>
+    </div>
+
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body" id="result">
+
+    </div>
+</div>
+
+
+<script>
+    $('#generateCodeBtn').click(function () {
+
+        var data = getInputData();
+
+        var templateSelect = $('#input_template_select :checked');
+        var templates=[];
+        var account = $("#account").val();
+        if(!account){
+            account="000001"
+        }
+        $.each(templateSelect,function(){
+            templates.push({"templateName":$(this).val(),"moduleCode":$(this).attr("module")});
+        });
+        if(data==undefined||data.length<1){
+            alert("数据不能为空");
+            return
+        }
+        var params = {"code": "{{ ctx.code }}","templates":templates, "account": account, "data":
+            {
+                "rows": data,
+                "info":{"basePackage":$("#basePackage").val()}
+            }
+        };
+        var $btn = $(this).button("loading");
+        $.ajax({
+            method: "POST",
+            url: "/module/generate",
+            contentType: 'application/json',
+            data: JSON.stringify(params),
+            success: function (data) {
+                $btn.button("reset");
+                $('#result').empty();
+                var fileMap = JSON.parse(data)
+                $('#result').append("<a href='"+fileMap['zip']+"' target='_blank'>下载</a><br>");
+                fileMap.files.forEach(function (val, index) {
+                    $('#result').append("<p  >" + val + "&nbsp;&nbsp;" +
+                        "<a href='javascript:void(0)' path='"+val+"' class=\"glyphicon glyphicon-menu-down\" onclick=\"browseCode(this)\" aria-hidden=\"true\">展开</a> </p><br>");
+                });
+            },
+            error:function () {
+                $btn.button("reset");
+            }
+        });
+    });
+
+
+    hljs.initHighlightingOnLoad();
+
+    function browseCode(obj) {
+        var path =$(obj).attr("path");
+        var id ="t_" + (path.split(".")[0].replace(/\//g,"-"));
+        var type = path.split(".")[1];
+        if ($('#' + id).length > 0) {
+            if ($('#' + id).is(":hidden")) {
+                $('#' + id).show();
+                $(obj).removeClass("glyphicon-menu-down").addClass("glyphicon-menu-up").text("收缩");
+            } else {
+                $('#' + id).hide();
+                $(obj).removeClass("glyphicon-menu-up").addClass("glyphicon-menu-down").text("展开");
+            }
+        } else {
+            $.get(path+"?_t=" + new Date().getTime(), function (data) {
+                data = data.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+                $(obj).after("<pre class='snippet' id='" + id + "'><code class='" + type + "'>" + data + "</code></pre>");
+                $(obj).removeClass("glyphicon-menu-down").addClass("glyphicon-menu-up").text("收缩");
+
+
+                $('#' + id).each(function (i, block) {
+                    hljs.highlightBlock(block);
+                });
+            }, 'text');
+        }
+    }
+</script>

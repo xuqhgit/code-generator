@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sf.pass.data.platform.mapper.route.TestMapper">
+    <resultMap id="rowMapper" type="com.sf.pass.data.platform.model.route2.TestVo">
+        <result column="CHARACTER_SET_NAME" property="characterSetName" jdbcType="VARCHAR" />
+        <result column="DEFAULT_COLLATE_NAME" property="defaultCollateName" jdbcType="VARCHAR" />
+        <result column="DESCRIPTION" property="description" jdbcType="VARCHAR" />
+        <result column="MAXLEN" property="maxlen" jdbcType="BIGINT" />
+    </resultMap>
+
+    <sql id="BaseColumns">
+        CHARACTER_SET_NAME,DEFAULT_COLLATE_NAME,DESCRIPTION,MAXLEN
+    </sql>
+    <sql id="splitSrcCode">
+        <foreach collection="params.srcCode.split(',')" item="code" open="(" close=")" separator=",">
+            #{code}
+        </foreach>
+    </sql>
+
+    <sql id="splitDestCode">
+        <foreach collection="params.destCode.split(',')" item="code" open="(" close=")" separator=",">
+            #{code}
+        </foreach>
+    </sql>
+
+    <sql id="where">
+        <where>
+            a.version_dt <![CDATA[ >= ]]> #{params.startDate}
+            and a.version_dt <![CDATA[ <= ]]>  #{params.endDate}
+            <if test="params.srcCode!=null and params.srcCode!=''">
+                and (
+                load_zone_code in <include refid="splitSrcCode"/>
+                or src_area_code in <include refid="splitSrcCode"/>
+                )
+            </if>
+
+            
+
+        </where>
+    </sql>
+
+
+    <select id="selectList" resultMap="rowMapper">
+        select
+         
+        from CHARACTER_SETS a
+        <include refid="where"/>
+        order by version_dt desc
+    </select>
+
+    <select id="count" resultType="int">
+        select count(id)
+        from CHARACTER_SETS a
+        <include refid="where"/>
+    </select>
+
+</mapper>

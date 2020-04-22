@@ -1,0 +1,103 @@
+
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  {% for tmpl in ctx.templateList %}
+    <div class="panel panel-default" id="{{ tmpl.alias }}_panel">
+        <div class="panel-heading" role="tab" id="{{ tmpl.alias }}_head">
+          <h6 class="panel-title">
+           {{ tmpl.name }}
+          </h6>
+            <div class="right">
+
+                <a role="button" id="{{ tmpl.alias }}_save_btn" >
+                    <span class="glyphicon glyphicon-saved t" aria-hidden="true"></span>
+                </a>
+                <a role="button" >
+                    <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+
+                </a>
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#{{ tmpl.alias }}_panel_content" aria-expanded="true" aria-controls="collapseOne">
+                    <i class="lnr lnr-chevron-up"></i>
+                </a>
+
+            </div>
+        </div>
+        <div id="{{ tmpl.alias }}_panel_content" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="{{ tmpl.alias }}_head">
+          <textarea id="{{ tmpl.alias }}_template_textarea" is-load="false">
+
+
+          </textarea>
+        </div>
+    </div>
+  {% endfor %}
+
+</div>
+
+
+{#{% for tmpl in ctx.templateList %}#}
+{#    <div class="panel" id="{{ tmpl.alias }}">#}
+{#    <div class="panel-heading">#}
+{#        <h3 class="panel-title">{{ tmpl.name }}</h3>#}
+{#        <div class="right">#}
+{#            <button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>#}
+{#            <button type="button" class="btn-remove"><i class="lnr lnr-cross"></i></button>#}
+{#        </div>#}
+{#    </div>#}
+{#    <div class="panel-body">#}
+{#            <textarea id="{{ tmpl.alias }}_template_textarea" is-load="false">#}
+{##}
+{##}
+{#            </textarea>#}
+{#    </div>#}
+{#</div>#}
+{#{% endfor %}#}
+
+
+<script type="text/javascript">
+
+
+
+
+
+    {% for tmpl in ctx.templateList %}
+
+        var {{ tmpl.alias }}TextareaId = "{{ tmpl.alias }}_template_textarea";
+        var {{ tmpl.alias }}_t_editor;
+        $('#{{ tmpl.alias }}_panel_content').on('hidden.bs.collapse', function () {
+          $('#{{ tmpl.alias }}_panel').find('.lnr-chevron-up').removeClass("lnr-chevron-up").addClass("lnr-chevron-down");
+        });
+        $('#{{ tmpl.alias }}_panel_content').on('shown.bs.collapse', function () {
+          $('#{{ tmpl.alias }}_panel').find('.lnr-chevron-down').removeClass("lnr-chevron-down").addClass("lnr-chevron-up");
+        });
+        $('#{{ tmpl.alias }}_save_btn').click(function(){
+            var $btn = $(this).button('loading');
+            editTemplate("{{ ctx.code }}","{{ tmpl.name }}",{{ tmpl.alias }}_t_editor.getValue(),function () {
+                $btn.button("reset");
+            });
+        });
+    {% endfor %}
+
+    function loadTemplate() {
+         {% for tmpl in ctx.templateList %}
+        var {{ tmpl.alias }}isLoad = $("#"+{{ tmpl.alias }}TextareaId).attr("is-load");
+        if({{ tmpl.alias }}isLoad!='true'){
+
+            {{ tmpl.alias }}_t_editor = CodeMirror.fromTextArea(document.getElementById({{ tmpl.alias }}TextareaId), {
+                mode:"jinja2",
+                lineNumbers: true,
+                styleActiveLine: true,
+                matchBrackets: true
+
+            });
+
+            $.get("/module/static/{{ tmpl.moduleCode }}/template/{{ tmpl.name }}?_t="+Date.now(),function(data){
+                {{ tmpl.alias }}_t_editor.setValue(data);
+
+
+            },"text");
+            $("#"+{{ tmpl.alias }}TextareaId).attr("is-load","true");
+        }
+{#        panelCollapseAndExpand("{{ tmpl.alias }}");#}
+        {% endfor %}
+    }
+    $frame["generate_template_pane_show_callback"]=loadTemplate
+</script>

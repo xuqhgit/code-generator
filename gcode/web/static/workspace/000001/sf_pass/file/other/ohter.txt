@@ -1,0 +1,29 @@
+
+    // dubbo client
+
+      <!--  -->
+      <dubbo:reference id="testService" interface="com.sf.pass.data.platform.service.ReportService" check="false" registry="defaultRegistry" group="testServiceImpl" />
+
+
+    // dubbo private
+      <!--  -->
+      <dubbo:service ref="testServiceImpl" interface="com.sf.pass.data.platform.service.ReportService"  protocol="dubbo" timeout="60000" group="testServiceImpl"/>
+
+    //
+     1.TestVo要查看导出字段描述 以及index
+
+     2.ReportEnum 需要添加对应的枚举 TestController，TestServiceImpl有引用对应的
+
+     3. TestMapper.xml 查询条件修改 特别是 version_dt 业务可能不同
+
+     4. TestQuery 需要添加查询条件
+
+    //ReportEnum
+
+    CHARACTER_SETS_REPORT(""),
+
+    //请求路径
+    //查询
+    127.0.0.1:8083/opdp/data/queryTestRpt
+    //导出
+    127.0.0.1:8083/opdp/data/exportTestRpt
