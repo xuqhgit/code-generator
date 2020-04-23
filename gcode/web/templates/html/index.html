@@ -55,7 +55,7 @@
 		<!-- NAVBAR -->
 		<nav class="navbar navbar-default navbar-fixed-top">
 			<div class="brand">
-				<a href="index.html"><img src="/static/assets/img/logo-dark.png" alt="gcode" class="img-responsive logo"></a>
+				<a href="index">Code Template++</a>
 			</div>
 			<div class="container-fluid">
 				<div class="navbar-btn">
@@ -63,7 +63,7 @@
 				</div>
 
 				<div class="navbar-btn navbar-btn-right">
-					<a class="btn btn-success update-pro" href="#downloads/klorofil-pro-bootstrap-admin-dashboard-template/?utm_source=klorofil&utm_medium=template&utm_campaign=KlorofilPro" title="Upgrade to Pro" target="_blank"><i class="fa fa-rocket"></i> <span>gcode</span></a>
+					<a class="btn btn-success update-pro"  title="Upgrade to Pro" target="_blank"><i class="fa fa-rocket"></i> <span>gcode</span></a>
 				</div>
 				<div id="navbar-menu">
 					<ul class="nav navbar-nav navbar-right">
@@ -108,10 +108,10 @@
 			<div class="sidebar-scroll">
 				<nav>
 					<ul class="nav">
-						<li><a href="index.html" class="active"><i class="lnr lnr-home"></i> <span>项目列表</span></a></li>
+						<li><a href="#" class="active"><i class="lnr lnr-home"></i> <span>模板空间</span></a></li>
                         {% macro createMenu(menuInfo) %}
                             <li>
-                                <a href="#{{ menuInfo.code|replace("/","-") }}" onclick="loadModule('{{ menuInfo.code }}')" {% if menuInfo.child|length >0 %} data-toggle="collapse" class="collapsed" {% endif %} >
+                                <a href="#{{ menuInfo.code|replace("/","-") }}"  {% if menuInfo.child|length >0 %} data-toggle="collapse" class="collapsed"{% else%} onclick="loadModule('{{ menuInfo.code }}')" {% endif %} >
                                     <span>{{ menuInfo.name }}</span> {% if menuInfo.child|length >0 %} <i class="icon-submenu lnr lnr-chevron-left"></i> {% endif %}</a>
                                 {% if menuInfo.child|length >0 %}
                                 <div id="{{ menuInfo.code|replace("/","-") }}" class="collapse ">
@@ -166,8 +166,8 @@
     <script src="/static/assets/vendor/highlight/highlight.min.js"></script>
 
     <script src="/static/assets/vendor/clipboard/clipboard.min.js"></script>
+	<script src="/static/assets/scripts/common.js?t=234"></script>
     <script>
-        template.defaults.rules[1].test = /{\[([@#]?)[ \t]*(\/?)([\w\W]*?)[ \t]*\]}/;
         var $app={};
         var $frame = {};
         $.fn.serializeObject = function () {
@@ -189,6 +189,7 @@
 
             $.get("/module/page/get?code="+code,null,function(data){
                 $("#content").html(data);
+                $('.btn-toggle-fullwidth').click();
 
             })
         }
@@ -206,6 +207,19 @@
             })
         }
 
+
+        function editTemplate(moduleCode,fileName,content,func){
+            $.post("/module/template/edit",{
+                moduleCode:moduleCode,
+                content:content,
+				fileName:fileName
+            },function(data){
+                if(func){
+                    func()
+                }
+
+            })
+        }
         function editConfig(moduleCode,content,func){
             $.post("/module/config/edit",{
                 moduleCode:moduleCode,

@@ -3,11 +3,13 @@
   {% for tmpl in ctx.templateList %}
     <div class="panel panel-default" id="{{ tmpl.alias }}_panel">
         <div class="panel-heading" role="tab" id="{{ tmpl.alias }}_head">
-          <h6 class="panel-title">
-           {{ tmpl.name }}
-          </h6>
-            <div class="right">
 
+            <h6 class="panel-title">
+              <a role="button" data-toggle="collapse" data-parent="#accordion" href="#{{ tmpl.alias }}_panel_content" aria-expanded="true" aria-controls="collapseOne">
+                    <i class="lnr lnr-chevron-up"></i>{{ tmpl.name }}
+                </a>
+            </h6>
+            <div class="right">
                 <a role="button" id="{{ tmpl.alias }}_save_btn" >
                     <span class="glyphicon glyphicon-saved t" aria-hidden="true"></span>
                 </a>
@@ -15,10 +17,6 @@
                     <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
 
                 </a>
-                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#{{ tmpl.alias }}_panel_content" aria-expanded="true" aria-controls="collapseOne">
-                    <i class="lnr lnr-chevron-up"></i>
-                </a>
-
             </div>
         </div>
         <div id="{{ tmpl.alias }}_panel_content" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="{{ tmpl.alias }}_head">
@@ -33,30 +31,7 @@
 </div>
 
 
-{#{% for tmpl in ctx.templateList %}#}
-{#    <div class="panel" id="{{ tmpl.alias }}">#}
-{#    <div class="panel-heading">#}
-{#        <h3 class="panel-title">{{ tmpl.name }}</h3>#}
-{#        <div class="right">#}
-{#            <button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>#}
-{#            <button type="button" class="btn-remove"><i class="lnr lnr-cross"></i></button>#}
-{#        </div>#}
-{#    </div>#}
-{#    <div class="panel-body">#}
-{#            <textarea id="{{ tmpl.alias }}_template_textarea" is-load="false">#}
-{##}
-{##}
-{#            </textarea>#}
-{#    </div>#}
-{#</div>#}
-{#{% endfor %}#}
-
-
 <script type="text/javascript">
-
-
-
-
 
     {% for tmpl in ctx.templateList %}
 
@@ -65,7 +40,7 @@
         $('#{{ tmpl.alias }}_panel_content').on('hidden.bs.collapse', function () {
           $('#{{ tmpl.alias }}_panel').find('.lnr-chevron-up').removeClass("lnr-chevron-up").addClass("lnr-chevron-down");
         });
-        $('#{{ tmpl.alias }}_panel_content').on('shown.bs.collapse', function () {
+        $('#{{ tmpl.alias }}_panel_content').on('show.bs.collapse', function () {
           $('#{{ tmpl.alias }}_panel').find('.lnr-chevron-down').removeClass("lnr-chevron-down").addClass("lnr-chevron-up");
         });
         $('#{{ tmpl.alias }}_save_btn').click(function(){

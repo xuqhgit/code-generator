@@ -51,7 +51,8 @@
                 $('#result').append("<a href='"+fileMap['zip']+"' target='_blank'>下载</a><br>");
                 fileMap.files.forEach(function (val, index) {
                     $('#result').append("<p  >" + val + "&nbsp;&nbsp;" +
-                        "<a href='javascript:void(0)' path='"+val+"' class=\"glyphicon glyphicon-menu-down\" onclick=\"browseCode(this)\" aria-hidden=\"true\">展开</a> </p><br>");
+                        "<a href='javascript:void(0)' path='"+fileMap.pathPrefix
+                        +val+"' class=\"glyphicon glyphicon-menu-down\" onclick=\"browseCode(this)\" aria-hidden=\"true\">展开</a> </p><br>");
                 });
             },
             error:function () {

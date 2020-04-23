@@ -8,7 +8,7 @@ import os
 
 
 env = Environment()
-env.loader = FileSystemLoader(web.template_module)
+env.loader = FileSystemLoader(web.template_module_dir)
 key_data_template = "dataTemplate"
 key_modules = "modules"
 key_child_module = "child"
@@ -103,18 +103,19 @@ def read_module():
     读取模板列表
     :return:
     """
-    file_dir = web.template_module
+    file_dir = web.template_module_dir
     temp_map = {}
     module_list=[]
     template_temp_map = {}
     for i in os.walk(file_dir):
-        code = i[0][len(file_dir) + 1:len(i[0])]
-        if file_dir == i[0]:
+        new_path = i[0].replace("\\","/")
+        code = new_path[len(file_dir) + 1:len(new_path)]
+        if file_dir == new_path:
             for item in reversed(i[1]):
                 temp_map[item]={"code":item}
                 module_list.append(temp_map[item])
         if config_util.config_info_ini in i[2]:
-            config = config_util.get_config(i[0]+"/"+config_util.config_info_ini)
+            config = config_util.get_config(new_path+"/"+config_util.config_info_ini)
             name = config.get("info","name")
             if code not in temp_map:
                 temp_map[code] = { key_child_module: []}
@@ -124,7 +125,7 @@ def read_module():
                 temp_map[code+"/"+item]={"code":code+"/"+item}
                 temp_map[code][key_child_module].append(temp_map[code+"/"+item])
         elif config_util.config_module_ini in i[2]:
-            config = config_util.get_config(i[0] + "/" + config_util.config_module_ini)
+            config = config_util.get_config(new_path + "/" + config_util.config_module_ini)
             name = config.get("info","name")
             if code in temp_map:
                 temp_map[code]["name"] = name

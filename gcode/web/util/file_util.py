@@ -12,7 +12,7 @@ def mkdir(path):
 
 
 def edit_file_content(path,file_name,content):
-    file_object = open('%s/%s/%s' % (web.template_module,path, file_name), 'w', encoding='utf8')
+    file_object = open('%s/%s/%s' % (web.template_module_dir,path, file_name), 'w', encoding='utf8')
     file_object.write(content)
 
 def write_workplace_file(module_code,path,content,file_name,file_type,account):
@@ -28,7 +28,7 @@ def write_workplace_file(module_code,path,content,file_name,file_type,account):
     """
     if account is None:
         raise Exception("account info  None")
-    path = '%s/%s/%s/file/%s' % (web.workplace,account,module_code.replace("/","_"), path.replace(".", "/"))
+    path = '%s/%s/%s/file/%s' % (web.workspace_dir,account,module_code.replace("/","_"), path.replace(".", "/"))
     mkdir(path)
     file_object = open('%s/%s.%s' % (path, file_name, file_type), 'w', encoding='utf8')
     file_object.write(content)
@@ -45,7 +45,7 @@ def clear_workplace_file(module_code,account):
     :param account:
     :return:
     """
-    path = '%s/%s/%s' % (web.workplace, account, module_code.replace("/", "_"))
+    path = '%s/%s/%s' % (web.workspace_dir, account, module_code.replace("/", "_"))
     for root, dirs, files in os.walk(path, topdown=False):
         for name in files:
             os.remove(os.path.join(root, name))
@@ -58,7 +58,7 @@ def clear_workplace_file(module_code,account):
 
 
 def create_zip(module_code,account):
-    root_path = '%s/%s/%s' % ( web.workplace,account,module_code.replace("/","_"))
+    root_path = '%s/%s/%s' % ( web.workspace_dir,account,module_code.replace("/","_"))
     start_dir = '%s/file' % root_path
     new_file = '%s/%s.zip' % (root_path, account)
     z = zipfile.ZipFile(new_file, 'w', zipfile.ZIP_DEFLATED)

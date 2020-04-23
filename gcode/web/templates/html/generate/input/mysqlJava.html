@@ -1,29 +1,32 @@
 <form class="form-horizontal" id="inputForm">
     <div class="form-group ">
-        <label class="col-sm-2 control-label" for="formGroupInputLarge">选择数据库</label>
-        <div class="col-sm-3">
-            <select class="form-control" id="databaseSelect" onchange="changeDatabase(this)"></select>
-        </div>
+
         <label class="col-sm-1 control-label" >工号</label>
         <div class="col-sm-2">
             <input type="text" class="form-control" id="account" >
         </div>
-        <label class="col-sm-2 control-label" >表名前缀</label>
+        <label class="col-sm-1 control-label" >表前缀</label>
         <div class="col-sm-2">
             <input type="text" class="form-control" value="{{ ctx.configMap.project.table_prefix }}" id="tablePrefix" >
         </div>
-    </div>
-    <div class="form-group">
-        <label class="col-sm-2 control-label" >选择表</label>
-        <div class="col-sm-4">
-            <select class="selectpicker show-tick form-control" multiple data-live-search="true"
-                    id="tableSelect"></select>
-        </div>
-        <label class="col-sm-2 control-label" >表名前缀</label>
+        <label class="col-sm-1 control-label" >基础包</label>
         <div class="col-sm-4">
             <input type="text" class="form-control" value="{{ ctx.configMap.project.base_package }}" id="basePackage" >
         </div>
-
+    </div>
+    <div class="form-group">
+        <label class="col-sm-1 control-label" >数据库</label>
+        <div class="col-sm-4">
+            <select class="form-control" id="databaseSelect" onchange="changeDatabase(this)"></select>
+        </div>
+        <div class="col-sm-6"></div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-1 control-label" >表</label>
+        <div class="col-sm-8">
+            <select class="selectpicker show-tick form-control" multiple data-live-search="true"
+                    id="tableSelect"></select>
+        </div>
     </div>
     <div class="form-group ">
         <table class="table table-hover">
@@ -79,25 +82,59 @@
 
     $('#tableSelect').on('changed.bs.select', function (obj, clickedIndex, isSelected, previousValue) {
             var valArr = $('#tableSelect').selectpicker('val');
-            var arr=[];
-            var database = $("#databaseSelect").val();
-            valArr.forEach(function (e,i) {
-
-                var $t = $('#table_'+e);
-                if($t.size()==0){
-                    var text = $("#tableSelect").find("option[value="+e+"]").attr("text");
-                   arr.push({"tableName":e,"database":database,"tableAlias":"t","tableComment":text})
+            var getDifVal=function (more,less) {
+                for(var i=0;i<more.length;i++){
+                    var flag = false;
+                    for(var j=0;j<less.length;j++){
+                        if(more[i]==less[j]){
+                            flag=true;
+                        }
+                    }
+                    if(!flag){
+                        return more[i];
+                    }
                 }
-            });
-
-            var html = template('j_tr', arr);
-            $('#inputForm tbody').append(html);
-
+            };
+            var database = $("#databaseSelect").val();
+            var tablePrefix = $('#tablePrefix').val();
+            if(valArr==undefined||previousValue.length>valArr.length){
+                //移除
+                var removeVal = previousValue[0];
+                if(valArr!=undefined){
+                    removeVal = getDifVal(previousValue,valArr);
+                }
+                $('#table_'+database+"_"+removeVal).remove();
+            }
+            else{
+               var addVal = getDifVal(valArr,previousValue);
+                var $t = $('#table_'+database+"_"+addVal);
+                if($t.size()==0){
+                    var text = $("#tableSelect").find("option[value="+addVal+"]").attr("text");
+                    var html = template('j_tr', [{"tableName":addVal,"database":database,"className":convertCamelCase(addVal,tablePrefix?tablePrefix.split(","):undefined,"_"),
+                       "database":database,"tableAlias":"t","tableComment":text}]);
+                    $('#inputForm tbody').append(html);
+                }
+            }
     });
 
     function removeTr(ele) {
-        console.info($(ele).parents("tr"))
-        $(ele).parents("tr").remove();
+        var $tr = $(ele).parents("tr");
+        var tr_id = $tr.attr("id");
+        if(tr_id){
+            var tableName  = $tr.find("input[name=tableName]").val();
+            var database  = $tr.find("input[name=database]").val();
+            if(database==$("#databaseSelect").val()){
+                var valArr = $('#tableSelect').selectpicker('val');
+                if(valArr){
+                    var newVal = [];
+                    valArr.forEach(function (e,i) {
+                        if(e!=tableName)newVal.push(e);
+                    });
+                    $("#tableSelect").selectpicker('val',newVal);
+                }
+            }
+        }
+        $tr.remove();
     }
     function addTr() {
         var html = template('j_tr', [{}]);
@@ -116,15 +153,22 @@
         }
         return trsVals;
     }
+    function tableNameChange(obj){
+        var tableName = $(obj).val();
+        var tablePrefix = $('#tablePrefix').val();
+        var _tablePrefix = tablePrefix?tablePrefix.split(","):undefined
+        $(obj).parents("tr").find("input[name=className]").val(convertCamelCase(tableName,_tablePrefix,"_"));
+    }
+
 </script>
 <script type="text/html" id="j_tr">
     {[each $data]}
-    <tr id="table_{[$value.tableName]}">
+    <tr {[ if $value.tableName ]}id="table_{[$value.database]}_{[$value.tableName]}{[/if]}">
         <td>
-            <input class="form-control" type="text" name="tableName" value="{[$value.tableName]}">
+            <input class="form-control" type="text" name="tableName" onchange="tableNameChange(this)" value="{[$value.tableName]}">
             <input class="form-control" type="hidden" name="database" value="{[$value.database]}">
         </td>
-        <td><input class="form-control" type="text" name="className"></td>
+        <td><input class="form-control" type="text" name="className" value="{[$value.className]}"></td>
         <td><input type="text" class="form-control"  name="tableAlias" value="{[$value.tableAlias]}"></td>
         <td><input type="text" class="form-control"  name="module"></td>
         <td><input class="form-control" type="text" name="description" value="{[$value.tableComment]}">
