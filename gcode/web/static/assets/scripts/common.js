@@ -9,10 +9,10 @@ template.defaults.rules[1].test = /{\[([@#]?)[ \t]*(\/?)([\w\W]*?)[ \t]*\]}/;
  * @param str
  * @returns {boolean}
  */
-function isLower(str){
-    for(var i=0;i<str.length;i++) {
+function isLower(str) {
+    for (var i = 0; i < str.length; i++) {
         var c = str.charAt(i);
-        if (c >= 'a' &&  c <= 'z' )
+        if (c >= 'a' && c <= 'z')
             return true;
     }
     return false;
@@ -25,37 +25,37 @@ function isLower(str){
  * @param connector 连接符
  * @returns {*}
  */
-function convertCamelCase(str,prefix,connector){
-    var _str =  str;
-    if(prefix!=undefined){
+function convertCamelCase(str, prefix, connector) {
+    var _str = str;
+    if (prefix != undefined) {
         var _prefix;
-        if((typeof prefix=='object')&&prefix.constructor==Array){
-            for(var i=0;i<prefix.length;i++){
-                if(_str.indexOf(prefix[i])==0){
-                    _prefix= prefix[i];
+        if ((typeof prefix == 'object') && prefix.constructor == Array) {
+            for (var i = 0; i < prefix.length; i++) {
+                if (_str.indexOf(prefix[i]) == 0) {
+                    _prefix = prefix[i];
                     break
                 }
             }
         }
-        else{
+        else {
             _prefix = prefix;
         }
-        if(_prefix!=undefined){
-            _str = _str.replace(_prefix,"")
+        if (_prefix != undefined) {
+            _str = _str.replace(_prefix, "")
         }
     }
-    if(!isLower(str)){
+    if (!isLower(str)) {
         _str = _str.toLowerCase();
     }
-    if(connector!=undefined&&_str.indexOf(connector)>-1){
+    if (connector != undefined && _str.indexOf(connector) > -1) {
         var flag = false;
         var field = '';
-        for(var i=0;i<_str.length;i++) {
+        for (var i = 0; i < _str.length; i++) {
             var c = _str.charAt(i);
-            if (c==connector&&i<_str.length)
+            if (c == connector && i < _str.length)
                 flag = true;
             else {
-                field = field +(flag?c.toUpperCase():c);
+                field = field + (flag ? c.toUpperCase() : c);
                 flag = false;
             }
         }
@@ -64,3 +64,20 @@ function convertCamelCase(str,prefix,connector){
     }
     return _str;
 }
+$.fn.serializeObject = function () {
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function () {
+        if (o[this.name]) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+};
+var $frame = {};
+var $app = {};

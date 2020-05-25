@@ -1,7 +1,8 @@
 
 
 
-import  web.service.strategy as strategy
+import  web.service.strategy
+import web.service.generator
 
 
 

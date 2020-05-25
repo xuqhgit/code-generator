@@ -1,7 +1,7 @@
 from flask import Blueprint
 from web.ui import *
 from web.util import config_util
-from web.db import mysql
+from web.db import db_map
 
 
 bp = Blueprint('db', __name__, template_folder='template', static_folder='static', url_prefix='/db')
@@ -12,9 +12,10 @@ bp = Blueprint('db', __name__, template_folder='template', static_folder='static
 def get_database():
     args =  get_args()
     code = args.get("code")
-    config, config_ext = config_util.get_extend_config_json(code)
     try:
-        db = mysql.Mysql(**config.get("mysql"))
+        config, config_ext = config_util.get_extend_config_json(code)
+        db_config = config.get(config.get("generate").get("db_config"))
+        db = db_map.get(db_config.get("db")).get("class")(db_config)
         return db.get_database()
     except Exception as e:
         print(e)
@@ -38,9 +39,10 @@ def get_fields():
 def get_tables(database):
     args = get_args()
     code = args.get("code")
-    config, config_ext = config_util.get_extend_config_json(code)
     try:
-        db = mysql.Mysql(**config.get("mysql"))
+        config, config_ext = config_util.get_extend_config_json(code)
+        db_config = config.get(config.get("generate").get("db_config"))
+        db = db_map.get(db_config.get("db")).get("class")(db_config)
         return db.get_table(database)
     except Exception as e:
         print(e)

@@ -1,75 +1,59 @@
-
 <div class="panel panel-default">
-    <!-- Default panel contents -->
     <div class="row">
         <div class="col-md-12">
             <div class="btn-toolbar" role="toolbar">
-              <div class="btn-group">
-                <button type="button" id="dataFormatSave" data-loading-text="保存中..." class="btn btn-default" aria-label="Left Align">
-                    <span class="glyphicon glyphicon-saved t" aria-hidden="true"></span>保存
-                </button>
-                <button type="button" class="btn btn-default" aria-label="Center Align">
-                    <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>刷新
-                </button>
-                  <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Right Align">
-                       版本对比 <span class="caret"></span>
+                <div class="btn-group">
+                    <button type="button" id="dataFormatSave" data-loading-text="保存中..." class="btn btn-default"
+                            aria-label="Left Align">
+                        <span class="glyphicon glyphicon-saved t" aria-hidden="true"></span>保存
                     </button>
-                      <ul class="dropdown-menu">
-                      <li><a href="#">Action</a></li>
-                      <li><a href="#">Another action</a></li>
-                      <li><a href="#">Something else here</a></li>
-                      <li role="separator" class="divider"></li>
-                      <li><a href="#">Separated link</a></li>
-                    </ul>
-                  </div>
+                    <button type="button" class="btn btn-default" aria-label="Center Align">
+                        <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>刷新
+                    </button>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false" aria-label="Right Align">
+                            版本对比 <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                    <textarea id="{{ codeId }}_t_data_format_textarea"> </textarea>
+            </div>
         </div>
-        <div class="col-md-12">
-            <textarea id="{{ codeId }}_t_data_format_textarea" is-load="false">
-
-
-            </textarea>
-        </div>
-
     </div>
-
 </div>
 <script type="text/javascript">
     var {{ codeId }}_t_data_format_editor;
     var templateDataFormatTextareaId = "{{ codeId }}_t_data_format_textarea";
-    function loadTemplateDataFormat() {
-        var isLoad = $("#"+templateDataFormatTextareaId).attr("is-load");
-        if(isLoad!='true'){
-            {{ codeId }}_t_data_format_editor = CodeMirror.fromTextArea(document.getElementById(templateDataFormatTextareaId), {
-                    mode:"jinja2",
-                    lineNumbers: true,
-                    styleActiveLine: true,
-                    matchBrackets: true
+    $frame.generate_data_format_pane_init = function () {
+        {{ codeId }}_t_data_format_editor = CodeMirror.fromTextArea(document.getElementById(templateDataFormatTextareaId), {
+            mode: "jinja2",
+            lineNumbers: true,
+            styleActiveLine: true,
+            matchBrackets: true
 
-                  });
-
-            $.get("/module/static/{{ ctx.code }}/dataFormat.json?_t="+Date.now(),function(data){
-                {{ codeId }}_t_data_format_editor.setValue(data);
-
-            },"text");
-            $("#"+templateDataFormatTextareaId).attr("is-load","true");
-        }
-
+        });
+        $.get("/module/static/{{ ctx.code }}/dataFormat.json?_t=" + Date.now(), function (data) {
+            {{ codeId }}_t_data_format_editor.setValue(data);
+        }, "text");
 
         $("#dataFormatSave").on('click', function () {
             var $btn = $(this).button('loading');
             console.info("...");
-            editDataFormat("{{ ctx.code }}",{{ codeId }}_t_data_format_editor.getValue(),function () {
+            editDataFormat("{{ ctx.code }}", {{ codeId }}_t_data_format_editor.getValue(), function () {
                 $btn.button("reset");
             });
         })
     }
-
-    $frame["generate_data_format_pane_show_callback"]=loadTemplateDataFormat;
-
-
 </script>
-
-
 
 

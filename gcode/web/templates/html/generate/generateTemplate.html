@@ -11,19 +11,15 @@
             </h6>
             <div class="right">
                 <a role="button" id="{{ tmpl.alias }}_save_btn" >
-                    <span class="glyphicon glyphicon-saved t" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon-saved " aria-hidden="true"></span>
                 </a>
                 <a role="button" >
                     <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
-
                 </a>
             </div>
         </div>
-        <div id="{{ tmpl.alias }}_panel_content" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="{{ tmpl.alias }}_head">
-          <textarea id="{{ tmpl.alias }}_template_textarea" is-load="false">
-
-
-          </textarea>
+        <div id="{{ tmpl.alias }}_panel_content" class="panel-collapse collapse in " role="tabpanel" aria-labelledby="{{ tmpl.alias }}_head">
+          <textarea id="{{ tmpl.alias }}_template_textarea"></textarea>
         </div>
     </div>
   {% endfor %}
@@ -51,28 +47,18 @@
         });
     {% endfor %}
 
-    function loadTemplate() {
+    $frame.generate_template_pane_init = function() {
          {% for tmpl in ctx.templateList %}
-        var {{ tmpl.alias }}isLoad = $("#"+{{ tmpl.alias }}TextareaId).attr("is-load");
-        if({{ tmpl.alias }}isLoad!='true'){
-
-            {{ tmpl.alias }}_t_editor = CodeMirror.fromTextArea(document.getElementById({{ tmpl.alias }}TextareaId), {
-                mode:"jinja2",
-                lineNumbers: true,
-                styleActiveLine: true,
-                matchBrackets: true
-
-            });
-
-            $.get("/module/static/{{ tmpl.moduleCode }}/template/{{ tmpl.name }}?_t="+Date.now(),function(data){
-                {{ tmpl.alias }}_t_editor.setValue(data);
-
-
-            },"text");
-            $("#"+{{ tmpl.alias }}TextareaId).attr("is-load","true");
-        }
-{#        panelCollapseAndExpand("{{ tmpl.alias }}");#}
+        {{ tmpl.alias }}_t_editor = CodeMirror.fromTextArea(document.getElementById({{ tmpl.alias }}TextareaId), {
+            mode:"jinja2",
+            lineNumbers: true,
+            styleActiveLine: true,
+            matchBrackets: true
+        });
+        $.get("/module/static/{{ tmpl.moduleCode }}/template/{{ tmpl.name }}?_t="+Date.now(),function(data){
+            {{ tmpl.alias }}_t_editor.setValue(data);
+        },"text");
         {% endfor %}
     }
-    $frame["generate_template_pane_show_callback"]=loadTemplate
+
 </script>

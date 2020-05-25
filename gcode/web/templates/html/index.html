@@ -2,37 +2,26 @@
 <html lang="en">
 
 <head>
-	<title>Dashboard | Klorofil - Free Bootstrap Dashboard Template</title>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-	<!-- VENDOR CSS -->
-	<link rel="stylesheet" href="/static/assets/vendor/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" href="/static/assets/vendor/font-awesome/css/font-awesome.min.css">
-	<link rel="stylesheet" href="/static/assets/vendor/linearicons/style.css">
-	<!-- MAIN CSS -->
-	<link rel="stylesheet" href="/static/assets/css/main.css">
-	<!-- GOOGLE FONTS -->
-	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
-	<!-- ICONS -->
-	<link rel="apple-touch-icon" sizes="76x76" href="/static/assets/img/apple-icon.png">
-	<link rel="icon" type="image/png" sizes="96x96" href="/static/assets/img/favicon.png">
+    <title>Dashboard | Klorofil - Free Bootstrap Dashboard Template</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <!-- VENDOR CSS -->
+    <link rel="stylesheet" href="/static/assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/assets/vendor/linearicons/style.css">
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="/static/assets/css/main.css">
+    <!-- GOOGLE FONTS -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+    <!-- ICONS -->
+    <link rel="apple-touch-icon" sizes="76x76" href="/static/assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/static/assets/img/favicon.png">
 
-    <link rel=stylesheet href="/static/assets/vendor/codemirror/doc/docs.css">
+    {#    <link rel=stylesheet href="/static/assets/vendor/codemirror/doc/docs.css">#}
 
     <link rel="stylesheet" href="/static/assets/vendor/codemirror/lib/codemirror.css">
     <link rel="stylesheet" href="/static/assets/vendor/codemirror/theme/3024-day.css">
-    <script src="/static/assets/vendor/codemirror/lib/codemirror.js"></script>
-    <script src="/static/assets/vendor/codemirror/mode/javascript/javascript.js"></script>
-    <script src="/static/assets/vendor/codemirror/mode/properties/properties.js"></script>
-    <script src="/static/assets/vendor/codemirror/mode/jinja2/jinja2.js"></script>
-    <script src="/static/assets/vendor/codemirror/addon/selection/active-line.js"></script>
-    <script src="/static/assets/vendor/codemirror/addon/edit/matchbrackets.js"></script>
-
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="/static/assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css">
-
-
 
 
     <style>
@@ -50,70 +39,80 @@
 </head>
 
 <body>
-	<!-- WRAPPER -->
-	<div id="wrapper">
-		<!-- NAVBAR -->
-		<nav class="navbar navbar-default navbar-fixed-top">
-			<div class="brand">
-				<a href="index">Code Template++</a>
-			</div>
-			<div class="container-fluid">
-				<div class="navbar-btn">
-					<button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
-				</div>
+<!-- WRAPPER -->
+<div id="wrapper">
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="brand">
+            <a href="index">Code Template++</a>
+        </div>
+        <div class="container-fluid">
+            <div class="navbar-btn">
+                <button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
+            </div>
 
-				<div class="navbar-btn navbar-btn-right">
-					<a class="btn btn-success update-pro"  title="Upgrade to Pro" target="_blank"><i class="fa fa-rocket"></i> <span>gcode</span></a>
-				</div>
-				<div id="navbar-menu">
-					<ul class="nav navbar-nav navbar-right">
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle icon-menu" data-toggle="dropdown">
-								模板管理
-							</a>
-							<ul class="dropdown-menu notifications">
-								<li><a href="#" class="notification-item"><span class="dot bg-warning"></span>System space is almost full</a></li>
+            <div class="navbar-btn navbar-btn-right">
+                <a class="btn btn-success update-pro" title="Upgrade to Pro" target="_blank"><i
+                        class="fa fa-rocket"></i> <span>gcode</span></a>
+            </div>
+            <div id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle icon-menu" data-toggle="dropdown">
+                            模板管理
+                        </a>
+                        <ul class="dropdown-menu notifications">
+                            <li><a href="#" class="notification-item"><span class="dot bg-warning"></span>System space
+                                is almost full</a></li>
 
-								<li><a href="#" class="notification-item"><span class="dot bg-success"></span>Your request has been approved</a></li>
-								<li><a href="#" class="more">See all notifications</a></li>
-							</ul>
-						</li>
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="lnr lnr-question-circle"></i> <span>帮助</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
-							<ul class="dropdown-menu">
-								<li><a href="#">gcode介绍</a></li>
-								<li><a href="#">gcode教程</a></li>
-								<li><a href="#">jinja2教程</a></li>
-							</ul>
-						</li>
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="/static/assets/img/user.png" class="img-circle" alt="Avatar"> <span>Samuel</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
-							<ul class="dropdown-menu">
-								<li><a href="#"><i class="lnr lnr-user"></i> <span>My Profile</span></a></li>
-								<li><a href="#"><i class="lnr lnr-envelope"></i> <span>Message</span></a></li>
-								<li><a href="#"><i class="lnr lnr-cog"></i> <span>Settings</span></a></li>
-								<li><a href="#"><i class="lnr lnr-exit"></i> <span>Logout</span></a></li>
-							</ul>
-						</li>
-						<!-- <li>
-							<a class="update-pro" href="#downloads/klorofil-pro-bootstrap-admin-dashboard-template/?utm_source=klorofil&utm_medium=template&utm_campaign=KlorofilPro" title="Upgrade to Pro" target="_blank"><i class="fa fa-rocket"></i> <span>UPGRADE TO PRO</span></a>
-						</li> -->
-					</ul>
-				</div>
-			</div>
-		</nav>
-		<!-- END NAVBAR -->
-		<!-- LEFT SIDEBAR -->
-		<div id="sidebar-nav" class="sidebar">
-			<div class="sidebar-scroll">
-				<nav>
-					<ul class="nav">
-						<li><a href="#" class="active"><i class="lnr lnr-home"></i> <span>模板空间</span></a></li>
-                        {% macro createMenu(menuInfo) %}
-                            <li>
-                                <a href="#{{ menuInfo.code|replace("/","-") }}"  {% if menuInfo.child|length >0 %} data-toggle="collapse" class="collapsed"{% else%} onclick="loadModule('{{ menuInfo.code }}')" {% endif %} >
-                                    <span>{{ menuInfo.name }}</span> {% if menuInfo.child|length >0 %} <i class="icon-submenu lnr lnr-chevron-left"></i> {% endif %}</a>
-                                {% if menuInfo.child|length >0 %}
+                            <li><a href="#" class="notification-item"><span class="dot bg-success"></span>Your request
+                                has been approved</a></li>
+                            <li><a href="#" class="more">See all notifications</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                class="lnr lnr-question-circle"></i> <span>帮助</span> <i
+                                class="icon-submenu lnr lnr-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">gcode介绍</a></li>
+                            <li><a href="#">gcode教程</a></li>
+                            <li><a href="#">jinja2教程</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img
+                                src="/static/assets/img/user.png" class="img-circle" alt="Avatar"> <span>Samuel</span>
+                            <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#"><i class="lnr lnr-user"></i> <span>My Profile</span></a></li>
+                            <li><a href="#"><i class="lnr lnr-envelope"></i> <span>Message</span></a></li>
+                            <li><a href="#"><i class="lnr lnr-cog"></i> <span>Settings</span></a></li>
+                            <li><a href="#"><i class="lnr lnr-exit"></i> <span>Logout</span></a></li>
+                        </ul>
+                    </li>
+                    <!-- <li>
+                        <a class="update-pro" href="#downloads/klorofil-pro-bootstrap-admin-dashboard-template/?utm_source=klorofil&utm_medium=template&utm_campaign=KlorofilPro" title="Upgrade to Pro" target="_blank"><i class="fa fa-rocket"></i> <span>UPGRADE TO PRO</span></a>
+                    </li> -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- END NAVBAR -->
+    <!-- LEFT SIDEBAR -->
+    <div id="sidebar-nav" class="sidebar">
+        <div class="sidebar-scroll">
+            <nav>
+                <ul class="nav">
+                    <li><a href="#" class="active"><i class="lnr lnr-home"></i> <span>模板空间</span></a></li>
+                    {% macro createMenu(menuInfo) %}
+                        <li>
+                            <a href="#{{ menuInfo.code|replace("/","-") }}"  {% if menuInfo.child|length >0 %}
+                               data-toggle="collapse" class="collapsed"{% else %}
+                               onclick="loadModule('{{ menuInfo.code }}')" {% endif %} >
+                                <span>{{ menuInfo.name }}</span> {% if menuInfo.child|length >0 %}
+                                <i class="icon-submenu lnr lnr-chevron-left"></i> {% endif %}</a>
+                            {% if menuInfo.child|length >0 %}
                                 <div id="{{ menuInfo.code|replace("/","-") }}" class="collapse ">
                                     <ul class="nav">
                                         {% for m in menuInfo.child %}
@@ -121,122 +120,115 @@
                                         {% endfor %}
                                     </ul>
                                 </div>
-                                {% endif %}
-                            </li>
-                        {% endmacro %}
-                        {{ menu }}
-                        {% for m in ctx.menu %}
-                            {{ createMenu(m) }}
-                        {% endfor %}
+                            {% endif %}
+                        </li>
+                    {% endmacro %}
+                    {{ menu }}
+                    {% for m in ctx.menu %}
+                        {{ createMenu(m) }}
+                    {% endfor %}
 
-					</ul>
-				</nav>
-			</div>
-		</div>
-		<!-- END LEFT SIDEBAR -->
-		<!-- MAIN -->
-		<div class="main">
-			<!-- MAIN CONTENT -->
-			<div class="main-content">
-				<div class="container-fluid">
-                    <div class="panel panel-profile" id="content">
-
-
-                    </div>
-				</div>
-			</div>
-			<!-- END MAIN CONTENT -->
-		</div>
-
-		<!-- END MAIN -->
-		<div class="clearfix"></div>
-	</div>
-	<!-- END WRAPPER -->
-	<!-- Javascript -->
-	<script src="/static/assets/vendor/jquery/jquery.min.js"></script>
-	<script src="/static/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
-	<script src="/static/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="/static/assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
-
-    <!-- (Optional) Latest compiled and minified JavaScript translation files -->
-    <script src="/static/assets/vendor/bootstrap-select/dist/js/i18n/defaults-zh_CN.min.js"></script>
-    <script src="/static/assets/vendor/art-template/lib/template-web.js"></script>
-	<script src="/static/assets/scripts/klorofil-common.js"></script>
-    <script src="/static/assets/vendor/highlight/highlight.min.js"></script>
-
-    <script src="/static/assets/vendor/clipboard/clipboard.min.js"></script>
-	<script src="/static/assets/scripts/common.js?t=234"></script>
-    <script>
-        var $app={};
-        var $frame = {};
-        $.fn.serializeObject = function () {
-            var o = {};
-            var a = this.serializeArray();
-            $.each(a, function () {
-                if (o[this.name]) {
-                    if (!o[this.name].push) {
-                        o[this.name] = [o[this.name]];
-                    }
-                    o[this.name].push(this.value || '');
-                } else {
-                    o[this.name] = this.value || '';
-                }
-            });
-            return o;
-        };
-        function loadModule(code){
-
-            $.get("/module/page/get?code="+code,null,function(data){
-                $("#content").html(data);
-                $('.btn-toggle-fullwidth').click();
-
-            })
-        }
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!-- END LEFT SIDEBAR -->
+    <!-- MAIN -->
+    <div class="main">
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <div class="container-fluid">
+                <div class="panel panel-profile" id="content">
 
 
-        function editDataFormat(moduleCode,content,func){
-            $.post("/module/dataFormat/edit",{
-                moduleCode:moduleCode,
-                content:content
-            },function(data){
-                if(func){
-                    func()
-                }
+                </div>
+            </div>
+        </div>
+        <!-- END MAIN CONTENT -->
+    </div>
 
-            })
-        }
+    <!-- END MAIN -->
+    <div class="clearfix"></div>
+</div>
+<!-- END WRAPPER -->
+<!-- Javascript -->
+<script src="/static/assets/vendor/jquery/jquery.min.js"></script>
+<script src="/static/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="/static/assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
 
+<!-- (Optional) Latest compiled and minified JavaScript translation files -->
+<script src="/static/assets/vendor/bootstrap-select/dist/js/i18n/defaults-zh_CN.min.js"></script>
+<script src="/static/assets/vendor/art-template/lib/template-web.js"></script>
+<script src="/static/assets/scripts/klorofil-common.js"></script>
+<script src="/static/assets/vendor/highlight/highlight.min.js"></script>
+<script src="/static/assets/vendor/codemirror/lib/codemirror.js"></script>
+{#<script src="/static/assets/vendor/codemirror/mode/javascript/javascript.js"></script>#}
+<script src="/static/assets/vendor/codemirror/mode/properties/properties.js"></script>
+<script src="/static/assets/vendor/codemirror/mode/jinja2/jinja2.js"></script>
+<script src="/static/assets/vendor/codemirror/addon/selection/active-line.js"></script>
+<script src="/static/assets/vendor/codemirror/addon/edit/matchbrackets.js"></script>
 
-        function editTemplate(moduleCode,fileName,content,func){
-            $.post("/module/template/edit",{
-                moduleCode:moduleCode,
-                content:content,
-				fileName:fileName
-            },function(data){
-                if(func){
-                    func()
-                }
-
-            })
-        }
-        function editConfig(moduleCode,content,func){
-            $.post("/module/config/edit",{
-                moduleCode:moduleCode,
-                content:content
-            },function(data){
-                if(func){
-                    func()
-                }
-            })
-        }
-
-    </script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="/static/assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css">
+<script src="/static/assets/vendor/clipboard/clipboard.min.js"></script>
+<script src="/static/assets/scripts/common.js?t=23444"></script>
 <script>
-  $('#myStateButton').on('click', function () {
-    $(this).button('complete') // button text will be "finished!"
-  })
+
+
+
+    function loadModule(code) {
+        $app.frameInputInit = undefined;
+        $.get("/module/page/get?code=" + code, null, function (data) {
+            $("#content").html(data);
+            if ($frame.init) {
+                $frame.init();
+            }
+            $('.btn-toggle-fullwidth').click();
+
+        })
+    }
+
+
+    function editDataFormat(moduleCode, content, func) {
+        $.post("/module/dataFormat/edit", {
+            moduleCode: moduleCode,
+            content: content
+        }, function (data) {
+            if (func) {
+                func()
+            }
+
+        })
+    }
+
+
+    function editTemplate(moduleCode, fileName, content, func) {
+        $.post("/module/template/edit", {
+            moduleCode: moduleCode,
+            content: content,
+            fileName: fileName
+        }, function (data) {
+            if (func) {
+                func()
+            }
+
+        })
+    }
+    function editConfig(moduleCode, content, func) {
+        $.post("/module/config/edit", {
+            moduleCode: moduleCode,
+            content: content
+        }, function (data) {
+            if (func) {
+                func()
+            }
+        })
+    }
+
 </script>
+
 
 </body>
 

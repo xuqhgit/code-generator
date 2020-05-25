@@ -1,54 +1,64 @@
 import logging
-
+from .db import DB
 try:
     import pymysql
 except Exception as e:
     logging.error(e)
-class Mysql(object):
+
+class Mysql(DB):
     """
     mysql处理
     """
-    def __init__(self,host=None,port=None,user=None,password=None):
-        cfg = {'host': host,
-               'port': int(port),
-               'user': user,
-               'password': password,
-               'charset': 'utf8'}
-        self.connect_config = cfg
 
+    def __init__(self,db_config):
+        self.conn = None
+        self.connect_config = {'host': db_config.get("host"),
+                               'port': int(db_config.get("port", 3306)),
+                               'user': db_config.get("user"),
+                               'password': db_config.get("password"),
+                               'charset': 'utf8'}
 
-    def get_all(self,sql,dict_cursor = True):
+    def get_one(self, sql):
+        pass
+
+    def get_all(self, sql):
         """
 
         :param sql:
         :return:
 
         """
-        conn = pymysql.connect(**self.connect_config)
-        if dict_cursor:
-            cursor = conn.cursor(cursor=pymysql.cursors.DictCursor)
-        else:
-            cursor = conn.cursor()
+        if self.conn is None:
+            self.conn = pymysql.connect(**self.connect_config)
+        cursor = self.conn.cursor(cursor=pymysql.cursors.DictCursor)
         cursor.execute(sql)
         data = cursor.fetchall()
         cursor.close()
-        conn.close()
         return data
 
     def get_database(self):
-        sql="SHOW DATABASES"
+        sql = "SHOW DATABASES"
         result = self.get_all(sql)
+        self.close_connect()
         return result
 
-
-    def get_table(self,database):
+    def get_table(self, database):
         sql = "select t.TABLE_NAME as tableName,t.TABLE_COMMENT as tableComment" \
               " from information_schema.tables t where table_schema='%s'" % database
-        return self.get_all(sql)
+        result = self.get_all(sql)
+        self.close_connect()
+        return result
 
-
-    def get_fields(self,database,table_name):
+    def get_fields(self, database, table_name):
         sql = "select  COLUMN_NAME as columnName,COLUMN_COMMENT as columnComment,DATA_TYPE as columnType" \
               ",CHARACTER_MAXIMUM_LENGTH as charLength,IS_NULLABLE as isNullable  " \
-              "FROM information_schema.`COLUMNS` where TABLE_NAME = '%s'  and TABLE_SCHEMA='%s' " % (table_name,database)
+              "FROM information_schema.`COLUMNS` where TABLE_NAME = '%s'  and TABLE_SCHEMA='%s' " \
+              % (table_name, database)
         return self.get_all(sql)
+
+    def close_connect(self):
+        self.conn.close()
+
+    def connect(self):
+        if self.conn is None:
+            self.conn = pymysql.connect(**self.connect_config)

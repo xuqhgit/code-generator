@@ -37,16 +37,17 @@ def get_section_json(config, section):
     options = config.options(section)
     result = {}
     for k in options:
-        if k.find("/json") > -1 and bool(config.get(section, k)):
+        v = config.get(section, k)
+        if v  and ((v[0] == "[" and v[len(v)-1] == "]") or (v[0] == "{" and v[len(v)-1] == "}")):
             try:
-                result[k.replace("/json", "")] = json.loads(config.get(section, k))
+                result[k] = json.loads(config.get(section, k))
+                continue
             except Exception as e:
-                raise Exception("exception : key:%s value:%s " % (k, config.get(section, k)))
-            continue
-        result[k] = config.get(section, k)
+                raise Exception("exception : key:%s value:%s  %s" % (k, v, e))
+        result[k] = v
     return result
 
-
+'{"path":"{{basePackage}}.web.controller.report.{{module}}","fileName":"{{className}}Controller"}'
 def get_config_json_by_code(code):
     config = get_config_by_code(code)
     return get_config_json_by_config(config)
@@ -68,3 +69,12 @@ def analysis_config_str(content):
 
 def get_config_by_code(code):
     return get_config("%s/%s/%s" % (web.template_module_dir, code, config_module_ini))
+
+
+def get_parent_module_code_arr(config, cur_module_code):
+    parent_module_code_arr = []
+    _parent_module_code_arr = config.get("info", {}).get("parent_module", [])
+    if bool(_parent_module_code_arr):
+        parent_module_code_arr.extend(_parent_module_code_arr)
+    parent_module_code_arr.append(cur_module_code)
+    return parent_module_code_arr
