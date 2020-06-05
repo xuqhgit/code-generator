@@ -1,12 +1,38 @@
 <form class="form-horizontal" id="input_template_select">
     <div class="form-group ">
-        <label class="col-sm-1 control-label" >模板：</label>
+        <label class="col-sm-1 control-label" ><input type="checkbox" id="template_list_checkbox" checked="checked"/>模板：</label>
         <div class="col-sm-10">
           {% for tmpl in ctx.templateList %}
-            <label class="checkbox-inline ">
+            <label class="checkbox-inline template_item ">
               <input type="checkbox"  checked="checked" module="{{ tmpl.moduleCode  }}" value="{{ tmpl.name }}"> {{ tmpl.name}}
             </label>
         {% endfor %}
         </div>
     </div>
 </form>
+
+<script>
+    $('#template_list_checkbox').on("click",function(){
+        var items = $('#input_template_select .template_item input[type="checkbox"]');
+        if($(this).is(':checked')){
+            items.each(function(){
+                $(this).prop("checked",true);
+            });
+        }else{
+            items.each(function(){
+                $(this).prop("checked",false);
+            });
+
+        }
+    });
+    $('#input_template_select .template_item input[type="checkbox"]').on('click',function(){
+        var items = $('#input_template_select .template_item input[type="checkbox"]');
+        var count=0;
+        items.each(function(){
+            if($(this).is(':checked')){
+                count+=1;
+            }
+        });
+        $('#template_list_checkbox').prop("checked",items.length==count);
+    })
+</script>

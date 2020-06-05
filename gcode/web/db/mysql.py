@@ -28,9 +28,7 @@ class Mysql(DB):
         :return:
 
         """
-        if self.conn is None:
-            self.conn = pymysql.connect(**self.connect_config)
-        cursor = self.conn.cursor(cursor=pymysql.cursors.DictCursor)
+        cursor = self.connect().cursor(cursor=pymysql.cursors.DictCursor)
         cursor.execute(sql)
         data = cursor.fetchall()
         cursor.close()
@@ -38,9 +36,12 @@ class Mysql(DB):
 
     def get_database(self):
         sql = "SHOW DATABASES"
-        result = self.get_all(sql)
+        cursor = self.connect().cursor()
+        cursor.execute(sql)
+        data = cursor.fetchall()
+        result_list = [j[0] for j in data]
         self.close_connect()
-        return result
+        return result_list
 
     def get_table(self, database):
         sql = "select t.TABLE_NAME as tableName,t.TABLE_COMMENT as tableComment" \
@@ -62,3 +63,4 @@ class Mysql(DB):
     def connect(self):
         if self.conn is None:
             self.conn = pymysql.connect(**self.connect_config)
+        return self.conn

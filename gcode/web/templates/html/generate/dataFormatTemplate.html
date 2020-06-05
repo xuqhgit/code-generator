@@ -42,13 +42,12 @@
             matchBrackets: true
 
         });
-        $.get("/module/static/{{ ctx.code }}/dataFormat.json?_t=" + Date.now(), function (data) {
+        $.get("/module/static/{{ ctx.dataFormatModuleCode }}/dataFormat.json?_t=" + Date.now(), function (data) {
             {{ codeId }}_t_data_format_editor.setValue(data);
         }, "text");
 
         $("#dataFormatSave").on('click', function () {
             var $btn = $(this).button('loading');
-            console.info("...");
             editDataFormat("{{ ctx.code }}", {{ codeId }}_t_data_format_editor.getValue(), function () {
                 $btn.button("reset");
             });

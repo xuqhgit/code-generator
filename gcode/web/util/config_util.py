@@ -15,7 +15,7 @@ def get_config(path):
 
 def get_extend_config_json(module_code):
     cur_config = get_config_json_by_code(module_code)
-    parent_module_code = cur_config.get("generate", {}).get("parent_module", [])
+    parent_module_code = cur_config.get("info", {}).get("parent_module", [])
     ext_info = {}
     if bool(parent_module_code) is None:
         return cur_config, ext_info

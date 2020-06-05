@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from flask import Blueprint, render_template, redirect, request, session
-
+import logging
 from web.ui import *
 from web.util import  file_util
-
+from web import result
 bp = Blueprint('user', __name__, template_folder='template', static_folder='static', url_prefix='/user')
 
 
@@ -17,9 +17,10 @@ def create():
         args = request.form
     zip_list = []
     try:
-        _list = file_util.get_user_zip(args.get("user","00001"))
-        for z in _list:
+        user_zip_list = file_util.get_user_zip(args.get("token","00001"))
+        for z in user_zip_list:
             zip_list.append({"path":z[0]+"/"+z[1],"name":z[1]})
     except Exception as e:
-        print(e)
-    return {"code":0,"data":zip_list}
+        logging.error(e)
+        return result.error(message=e)
+    return result.success(data=zip_list)

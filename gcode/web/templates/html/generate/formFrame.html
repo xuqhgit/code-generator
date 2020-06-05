@@ -23,10 +23,17 @@
     $frame.formFrameInit = function () {
         $frame.inputPaneInit();
         hljs.initHighlightingOnLoad();
+        var accountCache = $app.cacheGet("account");
+        if(accountCache!=undefined){
+            $('#account').val(accountCache);
+        }
+
         $('#generateCodeBtn').click(function () {
-            var templateSelect = $('#input_template_select :checked');
+            var templateSelect = $('#input_template_select .template_item :checked');
             var templates = [];
+
             var account = $("#account").val();
+            $app.cacheSave("account",account);
             $.each(templateSelect, function () {
                 templates.push({"templateName": $(this).val(), "moduleCode": $(this).attr("module")});
             });
@@ -43,15 +50,17 @@
                 url: "/module/generate",
                 contentType: 'application/json',
                 data: JSON.stringify(params),
+                dataType:"json",
                 success: function (data) {
+                    $app.alert(data);
                     $btn.button("reset");
                     $('#result').empty();
-                    var fileMap = JSON.parse(data);
+                    var fileMap = data.data;
                     $('#result').append("<a href='" + fileMap['zip'] + "' target='_blank'>下载</a><br>");
                     fileMap.files.forEach(function (val, index) {
-                        $('#result').append("<p  >" + val + "&nbsp;&nbsp;" +
-                            "<a href='javascript:void(0)' path='" + fileMap.pathPrefix
-                            + val + "' class=\"glyphicon glyphicon-menu-down\" onclick=\"browseCode(this)\" aria-hidden=\"true\">展开</a> </p><br>");
+                        $('#result').append("<p  ><a href='javascript:void(0)' path='" + fileMap.pathPrefix
+                            + val + "' class=\"glyphicon glyphicon-menu-down\" onclick=\"browseCode(this)\" aria-hidden=\"true\">" + val + "&nbsp;&nbsp;" +
+                            "</a> </p><br>");
                     });
                 },
                 error: function () {
@@ -70,16 +79,16 @@
         if ($id.length > 0) {
             if ($id.is(":hidden")) {
                 $id.show();
-                $(obj).removeClass("glyphicon-menu-down").addClass("glyphicon-menu-up").text("收缩");
+                $(obj).removeClass("glyphicon-menu-down").addClass("glyphicon-menu-up");
             } else {
                 $id.hide();
-                $(obj).removeClass("glyphicon-menu-up").addClass("glyphicon-menu-down").text("展开");
+                $(obj).removeClass("glyphicon-menu-up").addClass("glyphicon-menu-down");
             }
         } else {
             $.get(path + "?_t=" + new Date().getTime(), function (data) {
                 data = data.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
                 $(obj).after("<pre class='snippet' id='" + id + "'><code class='" + type + "'>" + data + "</code></pre>");
-                $(obj).removeClass("glyphicon-menu-down").addClass("glyphicon-menu-up").text("收缩");
+                $(obj).removeClass("glyphicon-menu-down").addClass("glyphicon-menu-up");
                 $('#' + id).each(function (i, block) {
                     hljs.highlightBlock(block);
                 });

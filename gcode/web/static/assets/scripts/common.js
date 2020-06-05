@@ -64,6 +64,12 @@ function convertCamelCase(str, prefix, connector) {
     }
     return _str;
 }
+
+
+function initialUpper(str){
+    return str.charAt(0).toUpperCase() + str.slice(1)
+}
+
 $.fn.serializeObject = function () {
     var o = {};
     var a = this.serializeArray();
@@ -81,3 +87,65 @@ $.fn.serializeObject = function () {
 };
 var $frame = {};
 var $app = {};
+
+
+$app.cacheSave = function (key, val) {
+    if (val instanceof Array) {
+        localStorage.setItem(key, JSON.stringify(val));
+    }
+    if (typeof(val) == "object") {
+        localStorage.setItem(key, JSON.stringify(val));
+    }
+    else {
+        localStorage.setItem(key, val);
+    }
+};
+$app.cacheGet = function (key, type) {
+    var s = localStorage.getItem(key);
+    if (s) {
+        if (type == "json") {
+            return JSON.parse(s);
+        }
+    }
+    return s;
+};
+$app.cacheRemove = function (key) {
+    localStorage.removeItem(key);
+};
+toastr.options = {
+  "closeButton": false,
+  "debug": false,
+  "positionClass": "toast-top-right",
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "5000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+};
+$app.alert = function (data,message,title) {
+    if(data.code==0){
+        $app.errorAlert(message!=undefined?message:data.message,title);
+        return
+    }
+    if(data.code==1){
+        $app.successAlert(message!=undefined?message:data.message,title);
+        return
+    }
+    $app.infoAlert(message!=undefined?message:data.message,title);
+};
+
+$app.successAlert = function (message,title) {
+    toastr['success'](message, title)
+};
+
+$app.errorAlert = function (message,title) {
+    toastr['error'](message, title)
+};
+
+$app.infoAlert = function (message,title) {
+    toastr['info'](message, title)
+};

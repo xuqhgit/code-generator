@@ -1,28 +1,26 @@
-
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-  {% for tmpl in ctx.templateList %}
-    <div class="panel panel-default" id="{{ tmpl.alias }}_panel">
-        <div class="panel-heading" role="tab" id="{{ tmpl.alias }}_head">
-
-            <h6 class="panel-title">
-              <a role="button" data-toggle="collapse" data-parent="#accordion" href="#{{ tmpl.alias }}_panel_content" aria-expanded="true" aria-controls="collapseOne">
-                    <i class="lnr lnr-chevron-up"></i>{{ tmpl.name }}
-                </a>
-            </h6>
-            <div class="right">
-                <a role="button" id="{{ tmpl.alias }}_save_btn" >
+    {% for tmpl in ctx.templateList %}
+        <div class="panel panel-default" id="{{ tmpl.alias }}_panel">
+            <div class="panel-heading" role="tab" id="{{ tmpl.alias }}_head">
+                <a role="button" id="{{ tmpl.alias }}_save_btn">
                     <span class="glyphicon glyphicon-saved " aria-hidden="true"></span>
                 </a>
-                <a role="button" >
+                <a role="button">
                     <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
                 </a>
+
+                <a role="button" data-toggle="collapse" data-parent="#accordion"
+                   href="#{{ tmpl.alias }}_panel_content" aria-expanded="true" aria-controls="collapseOne">
+                    <i class="lnr lnr-chevron-up"></i>{{ tmpl.name }}
+                </a>
+
+            </div>
+            <div id="{{ tmpl.alias }}_panel_content" class="panel-collapse collapse in " role="tabpanel"
+                 aria-labelledby="{{ tmpl.alias }}_head">
+                <textarea id="{{ tmpl.alias }}_template_textarea"></textarea>
             </div>
         </div>
-        <div id="{{ tmpl.alias }}_panel_content" class="panel-collapse collapse in " role="tabpanel" aria-labelledby="{{ tmpl.alias }}_head">
-          <textarea id="{{ tmpl.alias }}_template_textarea"></textarea>
-        </div>
-    </div>
-  {% endfor %}
+    {% endfor %}
 
 </div>
 
@@ -34,30 +32,30 @@
         var {{ tmpl.alias }}TextareaId = "{{ tmpl.alias }}_template_textarea";
         var {{ tmpl.alias }}_t_editor;
         $('#{{ tmpl.alias }}_panel_content').on('hidden.bs.collapse', function () {
-          $('#{{ tmpl.alias }}_panel').find('.lnr-chevron-up').removeClass("lnr-chevron-up").addClass("lnr-chevron-down");
+            $('#{{ tmpl.alias }}_panel').find('.lnr-chevron-up').removeClass("lnr-chevron-up").addClass("lnr-chevron-down");
         });
         $('#{{ tmpl.alias }}_panel_content').on('show.bs.collapse', function () {
-          $('#{{ tmpl.alias }}_panel').find('.lnr-chevron-down').removeClass("lnr-chevron-down").addClass("lnr-chevron-up");
+            $('#{{ tmpl.alias }}_panel').find('.lnr-chevron-down').removeClass("lnr-chevron-down").addClass("lnr-chevron-up");
         });
-        $('#{{ tmpl.alias }}_save_btn').click(function(){
+        $('#{{ tmpl.alias }}_save_btn').click(function () {
             var $btn = $(this).button('loading');
-            editTemplate("{{ ctx.code }}","{{ tmpl.name }}",{{ tmpl.alias }}_t_editor.getValue(),function () {
+            editTemplate("{{ ctx.code }}", "{{ tmpl.name }}", {{ tmpl.alias }}_t_editor.getValue(), function () {
                 $btn.button("reset");
             });
         });
     {% endfor %}
 
-    $frame.generate_template_pane_init = function() {
-         {% for tmpl in ctx.templateList %}
-        {{ tmpl.alias }}_t_editor = CodeMirror.fromTextArea(document.getElementById({{ tmpl.alias }}TextareaId), {
-            mode:"jinja2",
-            lineNumbers: true,
-            styleActiveLine: true,
-            matchBrackets: true
-        });
-        $.get("/module/static/{{ tmpl.moduleCode }}/template/{{ tmpl.name }}?_t="+Date.now(),function(data){
-            {{ tmpl.alias }}_t_editor.setValue(data);
-        },"text");
+    $frame.generate_template_pane_init = function () {
+        {% for tmpl in ctx.templateList %}
+            {{ tmpl.alias }}_t_editor = CodeMirror.fromTextArea(document.getElementById({{ tmpl.alias }}TextareaId), {
+                mode: "jinja2",
+                lineNumbers: true,
+                styleActiveLine: true,
+                matchBrackets: true
+            });
+            $.get("/module/static/{{ tmpl.moduleCode }}/template/{{ tmpl.name }}?_t=" + Date.now(), function (data) {
+                {{ tmpl.alias }}_t_editor.setValue(data);
+            }, "text");
         {% endfor %}
     }
 

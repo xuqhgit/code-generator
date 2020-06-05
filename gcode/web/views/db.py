@@ -1,9 +1,8 @@
 from flask import Blueprint
 from web.ui import *
 from web.util import config_util
-from web.db import db_map
-
-
+from web.db.db_wrapper import DBWrapper
+from web import result
 bp = Blueprint('db', __name__, template_folder='template', static_folder='static', url_prefix='/db')
 
 
@@ -14,12 +13,10 @@ def get_database():
     code = args.get("code")
     try:
         config, config_ext = config_util.get_extend_config_json(code)
-        db_config = config.get(config.get("generate").get("db_config"))
-        db = db_map.get(db_config.get("db")).get("class")(db_config)
-        return db.get_database()
+        db = DBWrapper(config)
+        return result.success(data=db.get_database())
     except Exception as e:
-        print(e)
-    return []
+        return result.error(data=[],message='%s' % e)
 
 
 
@@ -41,12 +38,10 @@ def get_tables(database):
     code = args.get("code")
     try:
         config, config_ext = config_util.get_extend_config_json(code)
-        db_config = config.get(config.get("generate").get("db_config"))
-        db = db_map.get(db_config.get("db")).get("class")(db_config)
-        return db.get_table(database)
+        db = DBWrapper(config)
+        return result.success(data=db.get_table(database))
     except Exception as e:
-        print(e)
-    return []
+        return result.error(data=[], message='%s' % e)
 
 def get_args():
     args = request.args

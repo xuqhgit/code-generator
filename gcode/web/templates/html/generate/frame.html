@@ -40,4 +40,28 @@
             });
         });
     }
+    function editTemplate(moduleCode, fileName, content, func) {
+        $.post("/module/template/edit", {
+            moduleCode: moduleCode,
+            content: content,
+            fileName: fileName
+        }, function (data) {
+            $app.alert(data);
+            if (func) {
+                func()
+            }
+
+        }, "json")
+    }
+    function editConfig(moduleCode, content, func) {
+        $.post("/module/config/edit", {
+            moduleCode: moduleCode,
+            content: content
+        }, function (data) {
+            $app.alert(data);
+            if (func) {
+                func()
+            }
+        }, "json")
+    }
 </script>

@@ -3,8 +3,8 @@
 from flask import Blueprint, render_template, redirect, request, session
 
 from web.ui import *
-from web import app
-
+from web import result
+import logging
 bp = Blueprint('template', __name__, template_folder='template', static_folder='static', url_prefix='/template')
 
 
@@ -13,16 +13,15 @@ bp = Blueprint('template', __name__, template_folder='template', static_folder='
 @json_view
 def create():
     args = request.args
-    result = {'code': 1, 'data': []}
+
     if request.method == 'POST':
         args = request.form
     try:
         pass
     except Exception as e:
-        print(e)
-        result['code'] = 0
-        result['msg'] = u'%s' % e
-    return result
+        logging.error(e)
+        return result.error(message=e)
+    return result.success()
 
 
 @bp.route("/data", methods=['post'])
