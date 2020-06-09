@@ -14,6 +14,8 @@ key_module_template = "templates"
 data_format_template_name = "dataFormat.json"
 _cache = {}
 
+
+
 # def str_contains(source_str,contains_str):
 #     if source_str is not None:
 #         return source_str.find(contains_str) > -1
@@ -169,5 +171,26 @@ def read_module():
     return module_list
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 if __name__ == "__main__":
-    read_module()
+    print(read_module())

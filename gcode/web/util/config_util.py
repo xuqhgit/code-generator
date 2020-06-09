@@ -47,7 +47,7 @@ def get_section_json(config, section):
         result[k] = v
     return result
 
-'{"path":"{{basePackage}}.web.controller.report.{{module}}","fileName":"{{className}}Controller"}'
+
 def get_config_json_by_code(code):
     config = get_config_by_code(code)
     return get_config_json_by_config(config)

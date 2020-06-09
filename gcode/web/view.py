@@ -26,7 +26,6 @@ def internal_error(error):
     return render_template('html/500.html'), 500
 
 
-
 @app.route('/')
 @app.route('/index', methods=['get','post'])
 def index():

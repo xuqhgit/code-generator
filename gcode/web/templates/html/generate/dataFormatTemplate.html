@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div class="col-md-12">
-                    <textarea id="{{ codeId }}_t_data_format_textarea"> </textarea>
+                <textarea id="{{ codeId }}_t_data_format_textarea"> </textarea>
             </div>
         </div>
     </div>
@@ -48,10 +48,32 @@
 
         $("#dataFormatSave").on('click', function () {
             var $btn = $(this).button('loading');
-            editDataFormat("{{ ctx.code }}", {{ codeId }}_t_data_format_editor.getValue(), function () {
-                $btn.button("reset");
-            });
-        })
+            var dataFormatModuleCode = "{{ ctx.dataFormatModuleCode }}";
+            if (dataFormatModuleCode != "{{ ctx.code }}") {
+                $frame.dialogConfirm({
+                    "title": "保存",
+                    "content": "当前文件属于【"+dataFormatModuleCode+"】 修改还是在当前模块新增？",
+                    update: function () {
+                        editDataFormat(dataFormatModuleCode, {{ codeId }}_t_data_format_editor.getValue(), function () {
+                            $btn.button("reset");
+                        });
+                    },
+                    add: function () {
+                        editDataFormat("{{ ctx.code }}", {{ codeId }}_t_data_format_editor.getValue(), function () {
+                            $btn.button("reset");
+                        });
+                    },
+                    close: function () {
+                        $btn.button("reset");
+                    }
+                });
+            }
+            else {
+                editDataFormat(dataFormatModuleCode, {{ codeId }}_t_data_format_editor.getValue(), function () {
+                    $btn.button("reset");
+                });
+            }
+        });
     }
 </script>
 

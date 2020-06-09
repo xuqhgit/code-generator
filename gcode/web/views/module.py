@@ -102,5 +102,5 @@ def get_file_path_list(module_code, account):
         for filename in file_name_list:
             _main_dir = main_dir.replace("\\", "/")
             file_path = os.path.join(_main_dir, filename)
-            files.append(file_path.split(path+"/")[1].replace("\\", "/"))
+            files.append(file_path.replace("\\", "/").split(path+"/")[1])
     return files, "/%s/%s/file/%s/" % (web.static_workspace, account, module_code)

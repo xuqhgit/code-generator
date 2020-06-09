@@ -6,7 +6,6 @@ from flask import Flask
 
 app = Flask(__name__,template_folder="templates")
 app.secret_key = os.urandom(24)
-app = Flask(__name__)
 _dir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir)).replace("\\","/")
 web_dir = os.path.dirname(__file__).replace("\\","/")
 _log_dir = os.path.join(_dir, 'logs')
@@ -32,8 +31,6 @@ console.setLevel(logging.INFO)
 formatter = logging.Formatter('[%(asctime)s] %(levelname)s: %(message)s')
 console.setFormatter(formatter)
 logging.getLogger('').addHandler(console)
-
-
 
 from web import view
 from web import views

@@ -11,7 +11,7 @@
 
                 <a role="button" data-toggle="collapse" data-parent="#accordion"
                    href="#{{ tmpl.alias }}_panel_content" aria-expanded="true" aria-controls="collapseOne">
-                    <i class="lnr lnr-chevron-up"></i>{{ tmpl.name }}
+                    <i class="lnr lnr-chevron-up"></i>{{ tmpl.name }}{% if tmpl.moduleCode != ctx.code %} [{{ tmpl.moduleCode }}]{% endif %}
                 </a>
 
             </div>
@@ -38,12 +38,38 @@
             $('#{{ tmpl.alias }}_panel').find('.lnr-chevron-down').removeClass("lnr-chevron-down").addClass("lnr-chevron-up");
         });
         $('#{{ tmpl.alias }}_save_btn').click(function () {
-            var $btn = $(this).button('loading');
-            editTemplate("{{ ctx.code }}", "{{ tmpl.name }}", {{ tmpl.alias }}_t_editor.getValue(), function () {
-                $btn.button("reset");
-            });
+            templateEditConfirm(this, {"editor":{{ tmpl.alias }}_t_editor,"name":"{{ tmpl.name }}","moduleCode":"{{ tmpl.moduleCode }}"});
+
         });
     {% endfor %}
+
+    function templateEditConfirm(obj, params) {
+        var $btn = $(obj).button('loading');
+        if (params.moduleCode != "{{ ctx.code }}") {
+            $frame.dialogConfirm({
+                "title": params.name + "保存",
+                content: "当前文件 " + params.name + "属于【" + params.moduleCode + "】修改还是在当前模块新增？",
+                update: function () {
+                    editTemplate(params.moduleCode, params.name, params.editor.getValue(), function () {
+                        $btn.button("reset");
+                    });
+                },
+                add: function () {
+                    editTemplate("{{ ctx.code }}", params.name, params.editor.getValue(), function () {
+                        $btn.button("reset");
+                    });
+                },
+                close: function () {
+                    $btn.button("reset");
+                }
+            });
+        }
+        else {
+            editTemplate("{{ ctx.code }}", params.name, params.editor.getValue(), function () {
+                $btn.button("reset");
+            });
+        }
+    }
 
     $frame.generate_template_pane_init = function () {
         {% for tmpl in ctx.templateList %}
@@ -55,7 +81,11 @@
             });
             $.get("/module/static/{{ tmpl.moduleCode }}/template/{{ tmpl.name }}?_t=" + Date.now(), function (data) {
                 {{ tmpl.alias }}_t_editor.setValue(data);
+                {% if loop.index0>0 %}
+                    $('#{{ tmpl.alias }}_panel_content').collapse('hide');
+                {% endif %}
             }, "text");
+
         {% endfor %}
     }
 

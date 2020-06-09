@@ -31,7 +31,7 @@
         $.each(tabs, function () {
             var id = $(this).attr("id");
             $("a[href='#" + id + "']").on('shown.bs.tab', function (e) {
-                var methodName = id+"_init";
+                var methodName = id + "_init";
                 // 显示后回调
                 if ($frame[methodName]) {
                     $frame[methodName]();
@@ -64,4 +64,44 @@
             }
         }, "json")
     }
+    $frame.dialogConfirm = function (settings) {
+        $('body').append(template('confirm', settings));
+        $('#confirm_update_btn').bind("click", settings.update);
+        $('#confirm_add_btn').bind("click", settings.add);
+        $('#dialog_confirm').on('show.bs.modal', function (e) {
+            $(this).css('display', 'block');
+            var modalHeight = $(window).height() / 2 - $('#dialog_confirm .modal-dialog').height() / 2;
+            $(this).find('.modal-dialog').css({
+                'margin-top': modalHeight
+            });
+
+        });
+        $('#dialog_confirm').modal('show');
+        $('#dialog_confirm').on('hidden.bs.modal', function (e) {
+            settings.close();
+            $(this).remove();
+        })
+    }
+</script>
+
+<script type="text/html" id="confirm">
+    <div id="dialog_confirm" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">{[title]}</h4>
+                </div>
+                <div class="modal-body">
+                    <p>{[#content]}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="confirm_update_btn" data-dismiss="modal">更新
+                    </button>
+                    <button type="button" class="btn btn-primary" id="confirm_add_btn">新增</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </script>
