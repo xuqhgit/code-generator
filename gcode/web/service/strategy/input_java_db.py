@@ -35,7 +35,7 @@ class JavaDBStrategy(InputHandleStrategy):
                         f['type'] = db_convert_java_json[f['jdbcType']]
                 j = {'tableName': r['tableName'], 'database': r['database'], 'className': r['className'],
                      'fields': field_list,
-                     'tableAlias': r["tableAlias"], "description": r["description"],
+                     'tableAlias': r["tableAlias"], "description": r["description"],"module":r['module'],
                      'basePackage': data['data']["info"]['basePackage']}
                 result.append(j)
         finally:

@@ -8,7 +8,7 @@ _cache = {}
 
 
 def get_config(path):
-    config = configparser.ConfigParser()
+    config = configparser.RawConfigParser()
     config.read(path, encoding="utf-8-sig")
     return config
 
@@ -62,7 +62,7 @@ def get_config_json_by_config(config):
 
 
 def analysis_config_str(content):
-    config_parser = configparser.ConfigParser()
+    config_parser = configparser.RawConfigParser()
     config_parser.read_string(content)
     return get_config_json_by_config(config_parser)
 
