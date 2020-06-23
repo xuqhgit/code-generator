@@ -30,6 +30,7 @@
                 <th>描述</th>
                 <th>
                     <a href="javascript:void(0)" onclick="addTr(this)" class="glyphicon glyphicon-plus-sign"></a>
+                    <a href="javascript:void(0)" onclick="removeAllTr(this)" class="glyphicon glyphicon-minus-sign"></a>
                 </th>
             </tr>
             </thead>
@@ -124,7 +125,12 @@
         loadTable($(obj).val())
     }
 
-
+    function removeAllTr(obj){
+        var arr = $('#inputForm tbody a.glyphicon-minus-sign');
+        arr.each(function(e){
+            this.click();
+        })
+    }
     function removeTr(ele) {
         var $tr = $(ele).parents("tr");
         var tr_id = $tr.attr("id");
